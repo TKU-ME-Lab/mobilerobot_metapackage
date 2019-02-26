@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mobile_robot</name>
+  <version>0.0.0</version>
+  <description>The mobile_robot package</description>
+
+  <maintainer email="gp62@todo.todo">gp62</maintainer>
+
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- format=2 rundepend replace to exec_depend-->
+  <exec_depend>mobilerobot_description</exec_depend>
+  
+  <export>
+    <metapackage/>
+  </export>
+</package>
