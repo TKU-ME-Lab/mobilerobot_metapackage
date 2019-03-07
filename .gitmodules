@@ -1,0 +1,3 @@
+[submodule "epos_hardware"]
+	path = epos_hardware
+	url = https://github.com/YunRongLi/epos_hardware.git
