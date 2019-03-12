@@ -2,16 +2,15 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro"
        name="mobilerobot" >
 
-  <!-- common stuff 
-  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
-  -->
-  <!-- ur10 
-  <xacro:include filename="$(find ur_description)/urdf/ur10.urdf.xacro" />
-  -->
-  <!-- arm 
-  <xacro:ur10_robot prefix="" joint_limited="false"/>
-  
-  --> 
+  <xacro:include filename="$(find mobilerobot_description)/urdf/mobile_chassis.urdf.xacro"/>
+  <xacro:include filename="$(find mobilerobot_description)/urdf/manipulator.urdf.xacro"/>
+
+  <xacro:mobile_chassis prefix=""/>
+  <xacro:manipulator prefix="" joint2_upper_limit="0"/>
+
+  <xacro:property name="ball_screw_lower_limit" value="-0.77"/>
+  <xacro:property name="ball_screw_upper_limit" value="0"/>
+
   <link name="world" />
 
   <joint name="world_joint" type="fixed">
@@ -20,141 +19,30 @@
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
   </joint>
 
-  <link name="base_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="forward_left_joint" type="continuous">
+  <joint name="ball_screw_joint" type="prismatic">
     <parent link="base_link" />
-    <child link="forward_left_mecanum_link" />
-    <origin xyz="0.3 0.3 0.040" rpy="0 0 0"/>
-    <axis xyz="0 1 0"/>
+    <child link="ball_screw_link" />
+    <origin xyz="0.305 0 1.1" rpy="0 0 0" />
+    <limit lower="${ball_screw_lower_limit}" upper="${ball_screw_upper_limit}" effort="1" velocity="1"/>
+    <axis xyz="0 0 1"/>
   </joint>
 
-  <link name="forward_left_mecanum_link">
+  <link name="ball_screw_link">
     <visual>
-      <origin xyz="0 -0.13077 0" rpy="0 0 ${pi/2}"/>
+      <origin xyz="0.028 -0.11 0" rpy="${pi/2} 0 ${pi/2}" />
       <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mobilerobot_description/meshes/ball_screw_link.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-
       <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
+        <color rgba="0.7 0.7 0.7 1.0"/>
       </material>
     </visual>
-    <collision>
-      <origin xyz="0 -0.13077 0" rpy="0 0 ${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </collision>
   </link>
 
-  <joint name="forward_right_joint" type="continuous">
-    <parent link="base_link" />
-    <child link="forward_right_mecanum_link" />
-    <origin xyz="0.3 -0.3 0.04" rpy="0 0 0" />
-    <axis xyz="0 -1 0" />
+  <joint name="manipulator_fixed" type="fixed">
+    <parent link="ball_screw_link"/>
+    <child link="link1"/>
+    <origin xyz="0.048 0 0.075" rpy="0 0 0"/>
   </joint>
 
-  <link name="forward_right_mecanum_link">
-    <visual>
-      <origin xyz="0 0.13077 0" rpy="0 0 -${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0.13077 0" rpy="0 0 -${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </collision>
-  </link>
-
-  <joint name="backward_left_joint" type="continuous">
-    <parent link="base_link" />
-    <child link="backward_left_mecanum_link" />
-    <origin xyz="-0.3 0.3 0.04" rpy="0 0 0" />
-    <axis xyz="0 1 0 " />
-  </joint>
-
-  <link name="backward_left_mecanum_link">
-    <visual>
-      <origin xyz="0 -0.13077 0" rpy="0 0 ${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 -0.13077 0" rpy="0 0 ${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </collision>
-  </link>
-
-  <joint name="backward_right_joint" type="continuous">
-    <parent link="base_link" />
-    <child link="backward_right_mecanum_link" />
-    <origin xyz="-0.3 -0.3 0.04" rpy="0 0 0 " />
-    <axis xyz="0 -1 0" />
-  </joint>
-
-  <link name="backward_right_mecanum_link">
-    <visual>
-      <origin xyz="0 0.13077 0" rpy="0 0 -${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0.13077 0" rpy="0 0 -${pi/2}"/>
-      <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-
-      <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-      </material>
-    </collision>
-  </link>
 </robot>

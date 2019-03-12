@@ -1,0 +1,188 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="manipulator" params="prefix
+                                          joint1_lower_limit:=${-pi/2} joint1_upper_limit:=${pi/2}
+                                          joint2_lower_limit:=${-pi/2} joint2_upper_limit:=${pi/2}
+                                          joint3_lower_limit:=${-pi/2} joint3_upper_limit:=${pi/2}
+                                          joint4_lower_limit:=${-pi/2} joint4_upper_limit:=${pi/2}
+                                          joint5_lower_limit:=${-pi/2} joint5_upper_limit:=${pi/2}
+                                          joint6_lower_limit:=${-pi/2} joint6_upper_limit:=${pi/2}
+                                          joint7_lower_limit:=${-pi/2} joint7_upper_limit:=${pi/2}">
+    <!--
+    <xacro:property name="joint1_lower_limit" value="${-pi/2}"/>
+    <xacro:property name="joint2_lower_limit" value="${-pi/2}"/>
+    <xacro:property name="joint3_lower_limit" value="${-pi/2}"/>
+    <xacro:property name="joint4_lower_limit" value="${-pi/2}"/>
+    <xacro:property name="joint5_lower_limit" value="${-pi/2}"/>
+    <xacro:property name="joint6_lower_limit" value="${-pi/2}"/>
+    <xacro:property name="joint7_lower_limit" value="${-pi/2}"/>
+
+    <xacro:property name="joint1_upper_limit" value="${pi/2}"/>
+    <xacro:property name="joint2_upper_limit" value="0"/>
+    <xacro:property name="joint3_upper_limit" value="${pi/2}"/>
+    <xacro:property name="joint4_upper_limit" value="${pi/2}"/>
+    <xacro:property name="joint5_upper_limit" value="${pi/2}"/>
+    <xacro:property name="joint6_upper_limit" value="${pi/2}"/>
+    <xacro:property name="joint7_upper_limit" value="${pi/2}"/>
+    -->
+    <link name="${prefix}link1">
+      <visual>
+        <origin xyz="0.09 0 0" rpy="0 0 -${pi/2}" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link1.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint1" type="revolute">
+      <parent link="${prefix}link1" />
+      <child link="${prefix}link2" />
+      <origin xyz="0.126 0 0" rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <limit lower="${joint1_lower_limit}" upper="${joint1_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="${prefix}link2">
+      <visual>
+        <origin xyz="0.033 0.033 0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link2.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint2" type="revolute">
+      <parent link="${prefix}link2" />
+      <child link="${prefix}link3" />
+      <origin xyz="0.033 0.069 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${joint2_lower_limit}" upper="${joint2_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="${prefix}link3">
+      <visual>
+        <origin xyz="0 -0.069 0" rpy="-${pi/2} 0 0" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link3.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint3" type="revolute">
+      <parent link="${prefix}link3" />
+      <child link="${prefix}link4" />
+      <origin xyz="0 -0.069 -0.22541" rpy="0 0 0"/>
+      <axis xyz="0 0 -1"/>
+      <limit lower="${joint3_lower_limit}" upper="${joint3_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="${prefix}link4">
+      <visual>
+        <origin xyz="0 0 -0.003" rpy="-${pi/2} 0 0" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link4.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint4" type="revolute">
+      <parent link="${prefix}link4" />
+      <child link="${prefix}link5" />
+      <origin xyz="0.03 -0.057 -0.063" rpy="0 0 0"/>
+      <axis xyz="0 -1 0"/>
+      <limit lower="${joint4_lower_limit}" upper="${joint4_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="${prefix}link5">
+      <visual>
+        <origin xyz="-0.03 0.057 -0.051" rpy="-${pi/2} 0 0" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link5.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint5" type="revolute">
+      <parent link="${prefix}link5" />
+      <child link="${prefix}link6" />
+      <origin xyz="-0.03 0.057 -0.225" rpy="0 0 0"/>
+      <axis xyz="0 0 -1"/>
+      <limit lower="${joint5_lower_limit}" upper="${joint5_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="${prefix}link6">
+      <visual>
+        <origin xyz="0 0 -0.003" rpy="-${pi/2} 0 ${pi}" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link6.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint6" type="revolute">
+      <parent link="${prefix}link6" />
+      <child link="${prefix}link7" />
+      <origin xyz="0 0.045 -0.027" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${joint6_lower_limit}" upper="${joint6_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="${prefix}link7">
+      <visual>
+        <origin xyz="0 -0.045 -0.049" rpy="${pi/2} 0 0" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/link7.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+
+    <joint name="joint7" type="revolute">
+      <parent link="${prefix}link7" />
+      <child link="end_link" />
+      <origin xyz="0 -0.045 -0.133" rpy="0 0 0"/>
+      <axis xyz="0 0 -1"/>
+      <limit lower="${joint7_lower_limit}" upper="${joint7_upper_limit}" effort="1000" velocity="6.5"/>
+      <dynamics damping="0.7"/>
+    </joint>
+
+    <link name="end_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="-${pi/2} 0 0" />
+        <geometry>
+          <mesh filename="package://mobilerobot_description/meshes/manipulator/end_link.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+    </link>
+  </xacro:macro>
+
+</robot>
