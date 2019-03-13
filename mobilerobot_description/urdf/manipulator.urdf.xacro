@@ -8,23 +8,7 @@
                                           joint5_lower_limit:=${-pi/2} joint5_upper_limit:=${pi/2}
                                           joint6_lower_limit:=${-pi/2} joint6_upper_limit:=${pi/2}
                                           joint7_lower_limit:=${-pi/2} joint7_upper_limit:=${pi/2}">
-    <!--
-    <xacro:property name="joint1_lower_limit" value="${-pi/2}"/>
-    <xacro:property name="joint2_lower_limit" value="${-pi/2}"/>
-    <xacro:property name="joint3_lower_limit" value="${-pi/2}"/>
-    <xacro:property name="joint4_lower_limit" value="${-pi/2}"/>
-    <xacro:property name="joint5_lower_limit" value="${-pi/2}"/>
-    <xacro:property name="joint6_lower_limit" value="${-pi/2}"/>
-    <xacro:property name="joint7_lower_limit" value="${-pi/2}"/>
 
-    <xacro:property name="joint1_upper_limit" value="${pi/2}"/>
-    <xacro:property name="joint2_upper_limit" value="0"/>
-    <xacro:property name="joint3_upper_limit" value="${pi/2}"/>
-    <xacro:property name="joint4_upper_limit" value="${pi/2}"/>
-    <xacro:property name="joint5_upper_limit" value="${pi/2}"/>
-    <xacro:property name="joint6_upper_limit" value="${pi/2}"/>
-    <xacro:property name="joint7_upper_limit" value="${pi/2}"/>
-    -->
     <link name="${prefix}link1">
       <visual>
         <origin xyz="0.09 0 0" rpy="0 0 -${pi/2}" />
@@ -183,6 +167,10 @@
         </material>
       </visual>
     </link>
+
+    
+
+
   </xacro:macro>
 
 </robot>

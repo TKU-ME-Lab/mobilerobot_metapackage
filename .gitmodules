@@ -1,3 +1,6 @@
 [submodule "epos_hardware"]
 	path = epos_hardware
 	url = https://github.com/YunRongLi/epos_hardware.git
+[submodule "dynamixel_hardware"]
+	path = dynamixel_hardware
+	url = https://github.com/YunRongLi/dynamixel_hardware.git

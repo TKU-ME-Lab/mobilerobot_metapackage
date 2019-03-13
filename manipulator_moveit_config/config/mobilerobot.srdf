@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="mobilerobot">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="manipulator">
+        <joint name="joint1" />
+        <joint name="joint2" />
+        <joint name="joint3" />
+        <joint name="joint4" />
+        <joint name="joint5" />
+        <joint name="joint6" />
+        <joint name="joint7" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="default_pose" group="manipulator">
+        <joint name="joint1" value="0" />
+        <joint name="joint2" value="0" />
+        <joint name="joint3" value="0" />
+        <joint name="joint4" value="0" />
+        <joint name="joint5" value="0" />
+        <joint name="joint6" value="0" />
+        <joint name="joint7" value="0" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="End_Effector" parent_link="link1" group="manipulator" />
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="manipulator_fixed" type="fixed" parent_frame="world" child_link="link1" />
+    <virtual_joint name="joint1" type="floating" parent_frame="link1" child_link="link2" />
+    <virtual_joint name="joint2" type="floating" parent_frame="link2" child_link="link3" />
+    <virtual_joint name="joint3" type="floating" parent_frame="link3" child_link="link4" />
+    <virtual_joint name="joint4" type="floating" parent_frame="link4" child_link="link5" />
+    <virtual_joint name="joint5" type="floating" parent_frame="link5" child_link="link6" />
+    <virtual_joint name="joint6" type="floating" parent_frame="link6" child_link="link7" />
+    <virtual_joint name="joint7" type="floating" parent_frame="link7" child_link="end_link" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="backward_left_mecanum_link" link2="backward_right_mecanum_link" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="ball_screw_link" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="base_link" reason="Adjacent" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="end_link" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="forward_left_mecanum_link" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="forward_right_mecanum_link" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link1" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link2" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link3" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link4" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link5" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link6" reason="Never" />
+    <disable_collisions link1="backward_left_mecanum_link" link2="link7" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="ball_screw_link" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="base_link" reason="Adjacent" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="end_link" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="forward_left_mecanum_link" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="forward_right_mecanum_link" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link1" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link2" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link3" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link4" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link5" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link6" reason="Never" />
+    <disable_collisions link1="backward_right_mecanum_link" link2="link7" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="base_link" reason="Adjacent" />
+    <disable_collisions link1="ball_screw_link" link2="end_link" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="forward_left_mecanum_link" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="forward_right_mecanum_link" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="link1" reason="Adjacent" />
+    <disable_collisions link1="ball_screw_link" link2="link2" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="link3" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="link4" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="link5" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="link6" reason="Never" />
+    <disable_collisions link1="ball_screw_link" link2="link7" reason="Never" />
+    <disable_collisions link1="base_link" link2="forward_left_mecanum_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="forward_right_mecanum_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="link1" reason="Never" />
+    <disable_collisions link1="base_link" link2="link2" reason="Never" />
+    <disable_collisions link1="base_link" link2="link3" reason="Never" />
+    <disable_collisions link1="base_link" link2="link4" reason="Never" />
+    <disable_collisions link1="end_link" link2="link1" reason="Never" />
+    <disable_collisions link1="end_link" link2="link2" reason="Never" />
+    <disable_collisions link1="end_link" link2="link3" reason="Never" />
+    <disable_collisions link1="end_link" link2="link4" reason="Never" />
+    <disable_collisions link1="end_link" link2="link5" reason="Never" />
+    <disable_collisions link1="end_link" link2="link6" reason="Never" />
+    <disable_collisions link1="end_link" link2="link7" reason="Adjacent" />
+    <disable_collisions link1="forward_left_mecanum_link" link2="forward_right_mecanum_link" reason="Never" />
+    <disable_collisions link1="forward_left_mecanum_link" link2="link1" reason="Never" />
+    <disable_collisions link1="forward_left_mecanum_link" link2="link2" reason="Never" />
+    <disable_collisions link1="forward_left_mecanum_link" link2="link3" reason="Never" />
+    <disable_collisions link1="forward_left_mecanum_link" link2="link4" reason="Never" />
+    <disable_collisions link1="forward_left_mecanum_link" link2="link5" reason="Never" />
+    <disable_collisions link1="forward_right_mecanum_link" link2="link1" reason="Never" />
+    <disable_collisions link1="forward_right_mecanum_link" link2="link2" reason="Never" />
+    <disable_collisions link1="forward_right_mecanum_link" link2="link3" reason="Never" />
+    <disable_collisions link1="forward_right_mecanum_link" link2="link4" reason="Never" />
+    <disable_collisions link1="forward_right_mecanum_link" link2="link5" reason="Never" />
+    <disable_collisions link1="forward_right_mecanum_link" link2="link6" reason="Never" />
+    <disable_collisions link1="link1" link2="link2" reason="Adjacent" />
+    <disable_collisions link1="link1" link2="link3" reason="Never" />
+    <disable_collisions link1="link1" link2="link4" reason="Never" />
+    <disable_collisions link1="link1" link2="link5" reason="Never" />
+    <disable_collisions link1="link1" link2="link6" reason="Never" />
+    <disable_collisions link1="link1" link2="link7" reason="Never" />
+    <disable_collisions link1="link2" link2="link3" reason="Adjacent" />
+    <disable_collisions link1="link2" link2="link4" reason="Never" />
+    <disable_collisions link1="link2" link2="link5" reason="Never" />
+    <disable_collisions link1="link2" link2="link6" reason="Never" />
+    <disable_collisions link1="link2" link2="link7" reason="Never" />
+    <disable_collisions link1="link3" link2="link4" reason="Adjacent" />
+    <disable_collisions link1="link3" link2="link5" reason="Never" />
+    <disable_collisions link1="link3" link2="link6" reason="Never" />
+    <disable_collisions link1="link3" link2="link7" reason="Never" />
+    <disable_collisions link1="link4" link2="link5" reason="Adjacent" />
+    <disable_collisions link1="link4" link2="link6" reason="Never" />
+    <disable_collisions link1="link4" link2="link7" reason="Never" />
+    <disable_collisions link1="link5" link2="link6" reason="Adjacent" />
+    <disable_collisions link1="link5" link2="link7" reason="Never" />
+    <disable_collisions link1="link6" link2="link7" reason="Adjacent" />
+</robot>

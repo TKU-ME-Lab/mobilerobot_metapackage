@@ -1,5 +1,4 @@
-<robot xmlns:xacro="http://wiki.ros.org/xacro"
-       name="mobilerobot" >
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
 
   <xacro:macro name="mobile_chassis_transmission" params="prefix">
     <transmission name="${prefix}forward_left_joint_trans">

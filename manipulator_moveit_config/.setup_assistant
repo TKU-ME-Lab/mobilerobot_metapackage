@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: mobilerobot_description
+    relative_path: urdf/mobilerobot.urdf
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/mobilerobot.srdf
+  CONFIG:
+    author_name: YunRongLi
+    author_email: martianlee@gms.tku.edu.tw
+    generated_timestamp: 1552449476
