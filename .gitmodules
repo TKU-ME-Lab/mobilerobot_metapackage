@@ -4,3 +4,11 @@
 [submodule "dynamixel_hardware"]
 	path = dynamixel_hardware
 	url = https://github.com/YunRongLi/dynamixel_hardware.git
+[submodule "dynamixel-workbench"]
+	path = dynamixel-workbench
+	url = https://github.com/ROBOTIS-GIT/dynamixel-workbench.git
+	branch = kinetic-devel
+[submodule "dynamixel-workbench-msgs"]
+	path = dynamixel-workbench-msgs
+	url = https://github.com/ROBOTIS-GIT/dynamixel-workbench-msgs.git
+	branch = kinetic-devel
