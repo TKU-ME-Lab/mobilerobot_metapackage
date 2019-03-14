@@ -10,5 +10,65 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
+
+    <transmission name="${prefix}joint2_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint2">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint2_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}joint3_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint3">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint3_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}joint4_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint4">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint4_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}joint5_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint5">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint5_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}joint6_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint6">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint6_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}joint7_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint7">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint7_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
   </macro>
 </robot>
