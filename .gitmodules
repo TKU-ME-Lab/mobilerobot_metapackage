@@ -1,9 +1,11 @@
 [submodule "epos_hardware"]
 	path = epos_hardware
 	url = https://github.com/YunRongLi/epos_hardware.git
+	branch = debug
 [submodule "dynamixel_hardware"]
 	path = dynamixel_hardware
 	url = https://github.com/YunRongLi/dynamixel_hardware.git
+	branch = debug
 [submodule "dynamixel-workbench"]
 	path = dynamixel-workbench
 	url = https://github.com/ROBOTIS-GIT/dynamixel-workbench.git
