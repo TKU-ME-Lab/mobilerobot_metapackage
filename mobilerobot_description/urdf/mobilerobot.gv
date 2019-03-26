@@ -1,0 +1,47 @@
+digraph G {
+node [shape=box];
+"world" [label="world"];
+"base_link" [label="base_link"];
+"backward_left_mecanum_link" [label="backward_left_mecanum_link"];
+"backward_right_mecanum_link" [label="backward_right_mecanum_link"];
+"ball_screw_link" [label="ball_screw_link"];
+"link1" [label="link1"];
+"link2" [label="link2"];
+"link3" [label="link3"];
+"link4" [label="link4"];
+"link5" [label="link5"];
+"link6" [label="link6"];
+"link7" [label="link7"];
+"end_link" [label="end_link"];
+"forward_left_mecanum_link" [label="forward_left_mecanum_link"];
+"forward_right_mecanum_link" [label="forward_right_mecanum_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"world" -> "world_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"world_joint" -> "base_link"
+"base_link" -> "backward_left_joint" [label="xyz: -0.3 0.3 0.04 \nrpy: 0 -0 0"]
+"backward_left_joint" -> "backward_left_mecanum_link"
+"base_link" -> "backward_right_joint" [label="xyz: -0.3 -0.3 0.04 \nrpy: 0 -0 0"]
+"backward_right_joint" -> "backward_right_mecanum_link"
+"base_link" -> "ball_screw_joint" [label="xyz: 0.305 0 1.1 \nrpy: 0 -0 0"]
+"ball_screw_joint" -> "ball_screw_link"
+"ball_screw_link" -> "manipulator_fixed" [label="xyz: 0.048 0 0.075 \nrpy: 0 -0 0"]
+"manipulator_fixed" -> "link1"
+"link1" -> "joint1" [label="xyz: 0.126 0 0 \nrpy: 0 -0 0"]
+"joint1" -> "link2"
+"link2" -> "joint2" [label="xyz: 0.033 0.069 0 \nrpy: 0 -0 0"]
+"joint2" -> "link3"
+"link3" -> "joint3" [label="xyz: 0 -0.069 -0.22541 \nrpy: 0 -0 0"]
+"joint3" -> "link4"
+"link4" -> "joint4" [label="xyz: 0.03 -0.057 -0.063 \nrpy: 0 -0 0"]
+"joint4" -> "link5"
+"link5" -> "joint5" [label="xyz: -0.03 0.057 -0.225 \nrpy: 0 -0 0"]
+"joint5" -> "link6"
+"link6" -> "joint6" [label="xyz: 0 0.045 -0.027 \nrpy: 0 -0 0"]
+"joint6" -> "link7"
+"link7" -> "joint7" [label="xyz: 0 -0.045 -0.133 \nrpy: 0 -0 0"]
+"joint7" -> "end_link"
+"base_link" -> "forward_left_joint" [label="xyz: 0.3 0.3 0.04 \nrpy: 0 -0 0"]
+"forward_left_joint" -> "forward_left_mecanum_link"
+"base_link" -> "forward_right_joint" [label="xyz: 0.3 -0.3 0.04 \nrpy: 0 -0 0"]
+"forward_right_joint" -> "forward_right_mecanum_link"
+}
