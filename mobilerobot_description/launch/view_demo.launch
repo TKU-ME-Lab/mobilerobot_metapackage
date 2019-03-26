@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mobilerobot_description)/urdf/mobilerobot.urdf.xacro'"/>
+  <param name="robot_description" textfile="${find mobilerobt_description)/mobilerobot.urdf"/>
 
   <param name="use_gui" value="true"/>
 
