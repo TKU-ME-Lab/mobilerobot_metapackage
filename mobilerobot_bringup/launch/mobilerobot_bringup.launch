@@ -1,11 +1,18 @@
 <launch>
   
-
+  <!-- load robot URDF-->
   <include file="$(find mobilerobot_description)/launch/mobilerobot_upload.launch"/>
 
 
   <!-- dynamixel hardware -->
 
   <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch"/>
+
+  <rosparam file="${find dynamixel_hardware)/config/manipulator_controller.yaml" command="load"/>
+
+  <node name="ros_control_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="joint_state_controller velocity_trajectory_controller"/>
+
+  
   
 </launch>
