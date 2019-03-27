@@ -4,5 +4,5 @@
 
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find manipulator_moveit_config)/config/manipulator_controllers.yaml" command="load"/>
+  <rosparam file="$(find manipulator_moveit_config)/config/ros_controllers.yaml" command="load"/>
 </launch>
