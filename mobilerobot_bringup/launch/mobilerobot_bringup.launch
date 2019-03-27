@@ -1,11 +1,11 @@
 <launch>
   
 
-  <include file="$(find mobilerobot_description)/launch/mobilerobot_upload.launch">
+  <include file="$(find mobilerobot_description)/launch/mobilerobot_upload.launch"/>
 
 
-  <!-- dynamixel hardware -->
+  <!-- dynamixel hardware 
 
-  <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch">
-  
+  <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch"/>
+  -->
 </launch>
