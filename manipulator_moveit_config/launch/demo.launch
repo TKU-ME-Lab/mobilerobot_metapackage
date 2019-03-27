@@ -24,14 +24,7 @@
   </include>
 
   <!-- If needed, broadcast static tf for robot root -->
-    <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 link1 link2 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_2" args="0 0 0 0 0 0 link2 link3 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_3" args="0 0 0 0 0 0 link3 link4 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_4" args="0 0 0 0 0 0 link4 link5 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_5" args="0 0 0 0 0 0 link5 link6 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_6" args="0 0 0 0 0 0 link6 link7 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_7" args="0 0 0 0 0 0 link7 end_link 100" />
-
+  
 
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">

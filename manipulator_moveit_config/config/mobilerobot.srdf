@@ -10,6 +10,14 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="manipulator">
+        <link name="link1" />
+        <link name="link2" />
+        <link name="link3" />
+        <link name="link4" />
+        <link name="link5" />
+        <link name="link6" />
+        <link name="link7" />
+        <link name="end_link" />
         <joint name="joint1" />
         <joint name="joint2" />
         <joint name="joint3" />
@@ -19,7 +27,16 @@
         <joint name="joint7" />
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
-    <group_state name="default_pose" group="manipulator">
+    <group_state name="setup" group="manipulator">
+        <joint name="joint1" value="0" />
+        <joint name="joint2" value="0" />
+        <joint name="joint3" value="0" />
+        <joint name="joint4" value="1.5707" />
+        <joint name="joint5" value="0" />
+        <joint name="joint6" value="0" />
+        <joint name="joint7" value="0" />
+    </group_state>
+    <group_state name="home" group="manipulator">
         <joint name="joint1" value="0" />
         <joint name="joint2" value="0" />
         <joint name="joint3" value="0" />
@@ -28,17 +45,8 @@
         <joint name="joint6" value="0" />
         <joint name="joint7" value="0" />
     </group_state>
-    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="End_Effector" parent_link="link1" group="manipulator" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
-    <virtual_joint name="manipulator_fixed" type="fixed" parent_frame="world" child_link="link1" />
-    <virtual_joint name="joint1" type="floating" parent_frame="link1" child_link="link2" />
-    <virtual_joint name="joint2" type="floating" parent_frame="link2" child_link="link3" />
-    <virtual_joint name="joint3" type="floating" parent_frame="link3" child_link="link4" />
-    <virtual_joint name="joint4" type="floating" parent_frame="link4" child_link="link5" />
-    <virtual_joint name="joint5" type="floating" parent_frame="link5" child_link="link6" />
-    <virtual_joint name="joint6" type="floating" parent_frame="link6" child_link="link7" />
-    <virtual_joint name="joint7" type="floating" parent_frame="link7" child_link="end_link" />
+    <virtual_joint name="manipulator_fixed" type="fixed" parent_frame="base_link" child_link="ball_screw_link" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="backward_left_mecanum_link" link2="backward_right_mecanum_link" reason="Never" />
     <disable_collisions link1="backward_left_mecanum_link" link2="ball_screw_link" reason="Never" />

@@ -1,3 +1,8 @@
 <launch>
+  <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
+  <param name="moveit_controller_manager" value="moveit_fake_controller_manager/MoveItFakeControllerManager"/>
 
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find manipulator_moveit_config)/config/manipulator_controllers.yaml" command="load"/>
 </launch>
