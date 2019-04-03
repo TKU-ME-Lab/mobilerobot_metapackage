@@ -1,0 +1,92 @@
+#include <controller_interface/controller.h>
+#include <hardware_interface/actuator_command_interface.h>
+#include <pluginlib/class_list_macros.h>
+
+#include <urdf_parser/urdf_parser.h>
+#include <nav_msgs/Odometry.h>
+#include <tf/tfMessage.h>
+
+#include <realtime_tools/realtime_buffer.h>
+#include <realtime_tools/realtime_publisher.h>
+
+
+
+namespace mecanum_wheel_controller
+{
+  class CMedcanumWhellController: public controller_interface::Controller<hardware_interface::VelocityActuatorInterface>
+  {
+  private:
+    std::string m_name;
+
+    ros::Duration m_publish_period;
+    ros::Time     m_last_state_publish_time;
+    
+    bool m_open_loop;
+
+    hardware_interface::ActuatorHandle m_actuatorHandle_wheel0;
+    hardware_interface::ActuatorHandle m_actuatorHandle_wheel1;
+    hardware_interface::ActuatorHandle m_actuatorHandle_wheel2;
+    hardware_interface::ActuatorHandle m_actuatorHandle_wheel3;
+
+    struct  Commands
+    {
+      double linear_x;
+      double linear_y;
+      double angular_z;
+      ros::Time stamp;
+
+      Commands(): linear_x(0.0), linear_y(0.0), angular_z(0.0), stamp(0.0) {}
+    };
+
+    realtime_tools::RealtimeBuffer<Commands> m_command;
+    Commands m_struct_command;
+
+    ros::Subscriber m_sub_command;
+
+    boost::shared_ptr<realtime_tools::RealtimePublisher<nav_msgs::Odometry> > m_pub_odometry;
+    boost::shared_ptr<realtime_tools::RealtimePublisher<tf::tfMessage> >      m_pub_tf;
+
+    geometry_msgs::TransformStamped m_odom_frame;
+
+    bool m_use_realigned_rooler_joints;
+    double m_wheels_k;
+    double m_wheels_radius;
+    double m_wheel_separation_x;
+    double m_wheel_separation_y;
+
+    double m_cmd_vel_timeout;
+
+    std::string base_frame_id;
+
+    bool enable_odom_if;
+
+    size_t m_wheel_joints_size;
+    
+    void brake();
+
+    void cmdVelCallback(const geometry_msgs::Twist& );
+    void setWheelParamsFromUrdf(ros::NodeHandle&, ros::NodeHandle&,
+                                const std::string&,
+                                const std::string&,
+                                const std::string&,
+                                const std::string&);
+
+    bool getWheelRadius(const urdf::ModelInterfaceSharedPtr model, const urdf::LinkConstSharedPtr& wheel_link, double& wheel_radius);
+
+    void setupRtPublishersMsg(ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh);
+
+
+  public:
+    CMedcanumWhellController();
+
+    bool init(hardware_interface::VelocityActuatorInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh);
+
+    void update(const ros::Time& time, const ros::Duration& period);
+
+    void starting(const ros::Time& time);
+
+    void stopping(const ros::Time& time);
+  };
+
+  PLUGINLIB_EXPORT_CLASS(mecanum_wheel_controller::CMedcanumWhellController, controller_interface::ControllerBase)
+}
