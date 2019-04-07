@@ -9,11 +9,12 @@
 #include <realtime_tools/realtime_buffer.h>
 #include <realtime_tools/realtime_publisher.h>
 
-
+#include <mobilerobot_control/codometry.h>
+#include <mobilerobot_control/cspeed_limiter.h>
 
 namespace mecanum_wheel_controller
 {
-  class CMedcanumWhellController: public controller_interface::Controller<hardware_interface::VelocityActuatorInterface>
+  class CMecanumWheelController: public controller_interface::Controller<hardware_interface::VelocityActuatorInterface>
   {
   private:
     std::string m_name;
@@ -46,6 +47,7 @@ namespace mecanum_wheel_controller
     boost::shared_ptr<realtime_tools::RealtimePublisher<nav_msgs::Odometry> > m_pub_odometry;
     boost::shared_ptr<realtime_tools::RealtimePublisher<tf::tfMessage> >      m_pub_tf;
 
+    COdometry m_odometry;
     geometry_msgs::TransformStamped m_odom_frame;
 
     bool m_use_realigned_rooler_joints;
@@ -56,16 +58,21 @@ namespace mecanum_wheel_controller
 
     double m_cmd_vel_timeout;
 
-    std::string base_frame_id;
+    std::string m_base_frame_id;
 
-    bool enable_odom_if;
+    bool m_enable_odom_if;
 
     size_t m_wheel_joints_size;
+
+    Commands m_last_cmd;
+    CSpeedLimiter m_limiter_linear_X;
+    CSpeedLimiter m_limiter_linear_Y;
+    CSpeedLimiter m_limiter_angular_Z;
     
     void brake();
 
     void cmdVelCallback(const geometry_msgs::Twist& );
-    void setWheelParamsFromUrdf(ros::NodeHandle&, ros::NodeHandle&,
+    bool setWheelParamsFromUrdf(ros::NodeHandle&, ros::NodeHandle&,
                                 const std::string&,
                                 const std::string&,
                                 const std::string&,
@@ -77,7 +84,7 @@ namespace mecanum_wheel_controller
 
 
   public:
-    CMedcanumWhellController();
+    CMecanumWheelController();
 
     bool init(hardware_interface::VelocityActuatorInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh);
 
@@ -88,5 +95,5 @@ namespace mecanum_wheel_controller
     void stopping(const ros::Time& time);
   };
 
-  PLUGINLIB_EXPORT_CLASS(mecanum_wheel_controller::CMedcanumWhellController, controller_interface::ControllerBase)
+  PLUGINLIB_EXPORT_CLASS(mecanum_wheel_controller::CMecanumWheelController, controller_interface::ControllerBase)
 }
