@@ -41,9 +41,10 @@
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 1.57079632679" xyz="0 -0.13077 0"/>
+      <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
+        <cylinder length="0.041" radius="0.075565"/>
+        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -67,9 +68,10 @@
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0.13077 0"/>
+      <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
+        <cylinder length="0.041" radius="0.075565"/>
+        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -93,9 +95,10 @@
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 1.57079632679" xyz="0 -0.13077 0"/>
+      <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
+        <cylinder length="0.041" radius="0.075565"/>
+        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -119,9 +122,10 @@
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0.13077 0"/>
+      <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/>
+        <cylinder length="0.041" radius="0.075565"/>
+        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
