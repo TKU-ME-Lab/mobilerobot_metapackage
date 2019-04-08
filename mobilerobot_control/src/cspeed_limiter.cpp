@@ -29,7 +29,7 @@ namespace mecanum_wheel_controller
   {
     if (m_has_velocity_limits)
     {
-      v = clamp(v, m_min_velocity, m_max_acceleration);
+      v = clamp(v, m_min_velocity, m_max_velocity);
     }
   }
 

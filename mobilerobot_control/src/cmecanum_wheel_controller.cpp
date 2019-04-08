@@ -1,11 +1,36 @@
 #include <tf/transform_datatypes.h>
-
 #include <urdf_parser/urdf_parser.h>
-
 #include <boost/assign.hpp>
-
 #include <mobilerobot_control/cmecanum_wheel_controller.h>
 
+static bool isCylinderOrSphere(const urdf::LinkConstSharedPtr &link)
+{
+  if (!link)
+  {
+    ROS_ERROR("Link == NULL");
+    return false;
+  }
+
+  if (!link->collision)
+  {
+    ROS_ERROR_STREAM("Link:" << link->name << " does not have collision description. Add collision description for link to urdf");
+    return false;
+  }
+  
+  if (!link->collision->geometry)
+  {
+    ROS_ERROR_STREAM("Link " << link->name << " does not have collision geometry description. Add collision geometry description for link to urdf.");
+    return false;
+  }
+
+  if(link->collision->geometry->type != urdf::Geometry::CYLINDER && link->collision->geometry->type != urdf::Geometry::SPHERE)
+  {
+    ROS_ERROR_STREAM("Link " << link->name << " does not have cylinder nor sphere geometry");
+    return false;
+  }
+
+  return true;
+}
 
 namespace mecanum_wheel_controller
 {
@@ -117,7 +142,6 @@ namespace mecanum_wheel_controller
 
       m_odometry.update(wheel0_vel, wheel1_vel, wheel2_vel, wheel3_vel, time);
     }
-    
 
     if (m_last_state_publish_time + m_publish_period < time)
     {
@@ -352,4 +376,91 @@ namespace mecanum_wheel_controller
     return true;
   }
   
+
+  bool CMecanumWheelController::getWheelRadius(const urdf::ModelInterfaceSharedPtr model,
+                                               const urdf::LinkConstSharedPtr &wheel_link, double &wheel_radius)
+  {
+    urdf::LinkConstSharedPtr radius_link = wheel_link;
+
+    if (m_use_realigned_rooler_joints)
+    {
+      const urdf::JointConstSharedPtr &roller_joint = radius_link->child_joints[0];
+
+      if (!roller_joint)
+      {
+         ROS_ERROR_STREAM_NAMED(m_name, "No roller joint could be retrieved for wheel : " << wheel_link->name <<
+          ". Are you sure mecanum wheels are simulated using realigned rollers?");
+        return false;
+      }
+
+      radius_link = model->getLink(roller_joint->child_link_name);
+      if(!radius_link)
+      {
+        ROS_ERROR_STREAM_NAMED(m_name, "No roller link could be retrieved for wheel : " << wheel_link->name <<
+          ". Are you sure mecanum wheels are simulated using realigned rollers?");
+        return false;
+      }
+    }
+
+    if (!isCylinderOrSphere(radius_link))
+    {
+      ROS_ERROR_STREAM("Wheel link " << radius_link->name << " is NOT modeled as a cylinder!");
+      return false;
+    }
+
+    if (radius_link->collision->geometry->type == urdf::Geometry::CYLINDER)
+      wheel_radius = (static_cast<urdf::Cylinder*>(radius_link->collision->geometry.get()))->radius;
+    else
+      wheel_radius = (static_cast<urdf::Sphere*>(radius_link->collision->geometry.get()))->radius;
+
+    return true;
+  }
+
+  void CMecanumWheelController::setupRtPublishersMsg(ros::NodeHandle &root_nh, ros::NodeHandle &controller_nh)
+  {
+    XmlRpc::XmlRpcValue pose_cov_list;
+    controller_nh.getParam("pose_covariance_diagonal", pose_cov_list);
+    ROS_ASSERT(pose_cov_list.getType() == XmlRpc::XmlRpcValue::TypeArray);
+    ROS_ASSERT(pose_cov_list.size() == 6);
+    for (int i = 0; i < pose_cov_list.size(); ++i)
+      ROS_ASSERT(pose_cov_list[i].getType() == XmlRpc::XmlRpcValue::TypeDouble);
+
+    XmlRpc::XmlRpcValue twist_cov_list;
+    controller_nh.getParam("twist_covariance_diagonal", twist_cov_list);
+    ROS_ASSERT(twist_cov_list.getType() == XmlRpc::XmlRpcValue::TypeArray);
+    ROS_ASSERT(twist_cov_list.size() == 6);
+    for (int i = 0; i < twist_cov_list.size(); ++i)
+      ROS_ASSERT(twist_cov_list[i].getType() == XmlRpc::XmlRpcValue::TypeDouble);
+
+    // Setup odometry msg.
+    m_pub_odometry.reset(new realtime_tools::RealtimePublisher<nav_msgs::Odometry>(controller_nh, "odom", 100));
+    m_pub_odometry->msg_.header.frame_id = "odom";
+    m_pub_odometry->msg_.child_frame_id = m_base_frame_id;
+    m_pub_odometry->msg_.pose.pose.position.z = 0;
+    m_pub_odometry->msg_.pose.covariance = boost::assign::list_of
+        (static_cast<double>(pose_cov_list[0])) (0)  (0)  (0)  (0)  (0)
+        (0)  (static_cast<double>(pose_cov_list[1])) (0)  (0)  (0)  (0)
+        (0)  (0)  (static_cast<double>(pose_cov_list[2])) (0)  (0)  (0)
+        (0)  (0)  (0)  (static_cast<double>(pose_cov_list[3])) (0)  (0)
+        (0)  (0)  (0)  (0)  (static_cast<double>(pose_cov_list[4])) (0)
+        (0)  (0)  (0)  (0)  (0)  (static_cast<double>(pose_cov_list[5]));
+    m_pub_odometry->msg_.twist.twist.linear.y  = 0;
+    m_pub_odometry->msg_.twist.twist.linear.z  = 0;
+    m_pub_odometry->msg_.twist.twist.angular.x = 0;
+    m_pub_odometry->msg_.twist.twist.angular.y = 0;
+    m_pub_odometry->msg_.twist.covariance = boost::assign::list_of
+        (static_cast<double>(twist_cov_list[0])) (0)  (0)  (0)  (0)  (0)
+        (0)  (static_cast<double>(twist_cov_list[1])) (0)  (0)  (0)  (0)
+        (0)  (0)  (static_cast<double>(twist_cov_list[2])) (0)  (0)  (0)
+        (0)  (0)  (0)  (static_cast<double>(twist_cov_list[3])) (0)  (0)
+        (0)  (0)  (0)  (0)  (static_cast<double>(twist_cov_list[4])) (0)
+        (0)  (0)  (0)  (0)  (0)  (static_cast<double>(twist_cov_list[5]));
+
+    // Setup tf msg.
+    m_pub_tf.reset(new realtime_tools::RealtimePublisher<tf::tfMessage>(root_nh, "/tf", 100));
+    m_pub_tf->msg_.transforms.resize(1);
+    m_pub_tf->msg_.transforms[0].transform.translation.z = 0.0;
+    m_pub_tf->msg_.transforms[0].child_frame_id = m_base_frame_id;
+    m_pub_tf->msg_.transforms[0].header.frame_id = "odom";
+  }
 } // mecanum_wheel_controller
