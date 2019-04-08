@@ -7,7 +7,7 @@
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="forward_left_actuator">
-        <mechanicalReduction>1</mechanicalReduction>
+        <mechanicalReduction>156</mechanicalReduction>
       </actuator>
     </transmission>
 
@@ -17,7 +17,7 @@
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="forward_right_actuator">
-        <mechanicalReduction>1</mechanicalReduction>
+        <mechanicalReduction>156</mechanicalReduction>
       </actuator>
     </transmission>
 
@@ -27,7 +27,7 @@
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="backward_left_actuator">
-        <mechanicalReduction>1</mechanicalReduction>
+        <mechanicalReduction>156</mechanicalReduction>
       </actuator>
     </transmission>
 
@@ -37,7 +37,7 @@
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <actuator name="backward_right_actuator">
-        <mechanicalReduction>1</mechanicalReduction>
+        <mechanicalReduction>156</mechanicalReduction>
       </actuator>
     </transmission>
 
