@@ -55,6 +55,7 @@ namespace mecanum_wheel_controller
     double m_wheels_radius;
     double m_wheel_separation_x;
     double m_wheel_separation_y;
+    double m_mechanical_reduction;
 
     double m_cmd_vel_timeout;
 

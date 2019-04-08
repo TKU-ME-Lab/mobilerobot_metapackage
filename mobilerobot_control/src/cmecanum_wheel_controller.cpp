@@ -36,7 +36,7 @@ namespace mecanum_wheel_controller
 {
   CMecanumWheelController::CMecanumWheelController():
     m_open_loop(false), m_struct_command(), m_use_realigned_rooler_joints(false),
-    m_wheels_k(0.0), m_wheels_radius(0.0), m_cmd_vel_timeout(0.5),
+    m_wheels_k(0.0), m_wheels_radius(0.0), m_cmd_vel_timeout(0.5), m_mechanical_reduction(1.0),
     m_base_frame_id("base_link"), m_enable_odom_if(true), m_wheel_joints_size(0)
   {
   }
@@ -108,6 +108,9 @@ namespace mecanum_wheel_controller
     controller_nh.param("angular/z/max_acceleration"       , m_limiter_angular_Z.m_max_acceleration       ,  m_limiter_angular_Z.m_max_acceleration      );
     controller_nh.param("angular/z/min_acceleration"       , m_limiter_angular_Z.m_min_acceleration       , -m_limiter_angular_Z.m_max_acceleration      );
 
+    controller_nh.param("mechanical_reduction", m_mechanical_reduction, m_mechanical_reduction);
+    ROS_INFO_STREAM_NAMED(m_name, "Mechanical Reduction: " << m_mechanical_reduction);
+
     // Get the joint objects to use in the realtime loop
     m_actuatorHandle_wheel0 = hw->getHandle(wheel0_name);  // throws on failure
     m_actuatorHandle_wheel1 = hw->getHandle(wheel1_name);  // throws on failure
@@ -132,10 +135,11 @@ namespace mecanum_wheel_controller
     }
     else
     {
-      double wheel0_vel = m_actuatorHandle_wheel0.getVelocity();
-      double wheel1_vel = m_actuatorHandle_wheel1.getVelocity();
-      double wheel2_vel = m_actuatorHandle_wheel2.getVelocity();
-      double wheel3_vel = m_actuatorHandle_wheel3.getVelocity();
+      // get velocity , and convert unit [rpm] to [rad/s] 
+      double wheel0_vel = m_actuatorHandle_wheel0.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel1_vel = m_actuatorHandle_wheel1.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel2_vel = m_actuatorHandle_wheel2.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel3_vel = m_actuatorHandle_wheel3.getVelocity()/ m_mechanical_reduction * M_PI / 30;
 
       if (std::isnan(wheel0_vel) || std::isnan(wheel1_vel) || std::isnan(wheel2_vel) || std::isnan(wheel3_vel))
         return;
@@ -187,10 +191,11 @@ namespace mecanum_wheel_controller
       m_limiter_angular_Z.limit(current_cmd.angular_z, m_last_cmd.angular_z, cmd_dt);
       m_last_cmd = current_cmd;
 
-      const double w0_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y - m_wheels_k * current_cmd.angular_z);
-      const double w1_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z);
-      const double w2_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z);
-      const double w3_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y + m_wheels_k * current_cmd.angular_z);
+      // Caculate 4 wheel velocity , and  convert unit [m/s] / [rpm]
+      const double w0_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w1_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w2_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w3_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
 
       m_actuatorHandle_wheel0.setCommand(w0_vel);
       m_actuatorHandle_wheel1.setCommand(w1_vel);
