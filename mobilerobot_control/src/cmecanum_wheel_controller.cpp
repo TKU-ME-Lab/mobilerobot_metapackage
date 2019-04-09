@@ -1,6 +1,7 @@
 #include <tf/transform_datatypes.h>
-#include <urdf_parser/urdf_parser.h>
+#include <transmission_interface/transmission_parser.h>
 #include <boost/assign.hpp>
+#include <boost/foreach.hpp>
 #include <mobilerobot_control/cmecanum_wheel_controller.h>
 
 static bool isCylinderOrSphere(const urdf::LinkConstSharedPtr &link)
@@ -277,30 +278,30 @@ namespace mecanum_wheel_controller
 
       ROS_INFO_STREAM("Loaded Robot Model: " + robot_model_str);
       urdf::ModelInterfaceSharedPtr model(urdf::parseURDF(robot_model_str));
-
+      
       // Get wheels position and compute parameter k_ (used in mecanum wheels IK).
-      urdf::JointConstSharedPtr wheel0_urdfJoint(model->getJoint(wheel0_name));
+      urdf::JointConstSharedPtr wheel0_urdfJoint(model->getJoint("forward_left_joint"));
       if(!wheel0_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel0_name
                               << " couldn't be retrieved from model description");
         return false;
       }
-      urdf::JointConstSharedPtr wheel1_urdfJoint(model->getJoint(wheel1_name));
+      urdf::JointConstSharedPtr wheel1_urdfJoint(model->getJoint("backward_left_joint"));
       if(!wheel1_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel1_name
                               << " couldn't be retrieved from model description");
         return false;
       }
-      urdf::JointConstSharedPtr wheel2_urdfJoint(model->getJoint(wheel2_name));
+      urdf::JointConstSharedPtr wheel2_urdfJoint(model->getJoint("backward_right_joint"));
       if(!wheel2_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel2_name
                               << " couldn't be retrieved from model description");
         return false;
       }
-      urdf::JointConstSharedPtr wheel3_urdfJoint(model->getJoint(wheel3_name));
+      urdf::JointConstSharedPtr wheel3_urdfJoint(model->getJoint("forward_right_joint"));
       if(!wheel3_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel3_name
