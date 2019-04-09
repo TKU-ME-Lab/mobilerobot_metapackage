@@ -2,7 +2,7 @@
 
   <xacro:include filename="$(find mobilerobot_description)/urdf/mobile_chassis.transmission.xacro" />
 
-  <xacro:macro name="mobile_chassis" params="prefix transmission_hw_interface:=hardware_interface/VelocityActuatorInterface">
+  <xacro:macro name="mobile_chassis" params="prefix transmission_hw_interface:=hardware_interface/VelocityJointInterface">
     <link name="${prefix}base_link">
       <visual>
         <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
