@@ -1,5 +1,5 @@
 <launch>
-  <arg name="joy_dev" default="/dev/input/js0" />
+  <arg name="joy_dev" default="/dev/input/js1" />
   <arg name="config_filepath" default="$(find bt3000_teleop_joy)/config/bt3000_config.yaml" />
   
   <node pkg="joy" type="joy_node" name="joy_node">
@@ -10,5 +10,6 @@
 
   <node name="teleop_twist_joy" pkg="bt3000_teleop_joy" type="bt3000_teleop_joy_node" output="screen">
     <rosparam command="load" file="$(arg config_filepath)" />
+    <remap from="cmd_vel" to="/mobile_chassis_velocity_controller/cmd_vel"/>
   </node>
 </launch>
