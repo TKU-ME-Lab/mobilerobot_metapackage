@@ -137,15 +137,6 @@
       <mechanicalReduction>156</mechanicalReduction>
     </actuator>
   </transmission>
-  <transmission name="forward_right_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="forward_right_joint">
-      <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
-    </joint>
-    <actuator name="forward_right_actuator">
-      <mechanicalReduction>156</mechanicalReduction>
-    </actuator>
-  </transmission>
   <transmission name="backward_left_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="backward_left_joint">
@@ -161,6 +152,15 @@
       <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
     </joint>
     <actuator name="backward_right_actuator">
+      <mechanicalReduction>156</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="forward_right_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="forward_right_joint">
+      <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
+    </joint>
+    <actuator name="forward_right_actuator">
       <mechanicalReduction>156</mechanicalReduction>
     </actuator>
   </transmission>
