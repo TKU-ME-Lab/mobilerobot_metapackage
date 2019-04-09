@@ -57,15 +57,15 @@ namespace mecanum_wheel_controller
     ROS_INFO_STREAM_NAMED(m_name, "Front left wheel joint (wheel0) is : " << wheel0_name);
 
     std::string wheel1_name;
-    controller_nh.param("back_left_wheel_joint", wheel1_name, wheel1_name);
+    controller_nh.param("front_right_wheel_joint", wheel1_name, wheel1_name);
     ROS_INFO_STREAM_NAMED(m_name, "Back left wheel joint (wheel1) is : " << wheel1_name);
 
     std::string wheel2_name;
-    controller_nh.param("back_right_wheel_joint", wheel2_name, wheel2_name);
+    controller_nh.param("back_left_wheel_joint", wheel2_name, wheel2_name);
     ROS_INFO_STREAM_NAMED(m_name, "Back right wheel joint (wheel2) is : " << wheel2_name);
 
     std::string wheel3_name;
-    controller_nh.param("front_right_wheel_joint", wheel3_name, wheel3_name);
+    controller_nh.param("back_right_wheel_joint", wheel3_name, wheel3_name);
     ROS_INFO_STREAM_NAMED(m_name, "Front right wheel joint (wheel3) is : " << wheel3_name);
 
     // Odometry related:
@@ -287,21 +287,21 @@ namespace mecanum_wheel_controller
                               << " couldn't be retrieved from model description");
         return false;
       }
-      urdf::JointConstSharedPtr wheel1_urdfJoint(model->getJoint("backward_left_joint"));
+      urdf::JointConstSharedPtr wheel1_urdfJoint(model->getJoint("forward_right_joint"));
       if(!wheel1_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel1_name
                               << " couldn't be retrieved from model description");
         return false;
       }
-      urdf::JointConstSharedPtr wheel2_urdfJoint(model->getJoint("backward_right_joint"));
+      urdf::JointConstSharedPtr wheel2_urdfJoint(model->getJoint("backward_left_joint"));
       if(!wheel2_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel2_name
                               << " couldn't be retrieved from model description");
         return false;
       }
-      urdf::JointConstSharedPtr wheel3_urdfJoint(model->getJoint("forward_right_joint"));
+      urdf::JointConstSharedPtr wheel3_urdfJoint(model->getJoint("backward_right_joint"));
       if(!wheel3_urdfJoint)
       {
         ROS_ERROR_STREAM_NAMED(m_name, wheel3_name
