@@ -33,8 +33,8 @@ namespace mecanum_wheel_controller
     m_time_stamp = time;
 
     m_linear_x = m_wheels_radius * ( wheel0_vel + wheel1_vel + wheel2_vel + wheel3_vel) * 0.25;
-    m_linear_y = m_wheels_radius * (-wheel0_vel + wheel1_vel - wheel2_vel + wheel3_vel) * 0.25;
-    m_angular_z = m_wheels_radius / m_wheels_k * (-wheel0_vel - wheel1_vel + wheel2_vel + wheel3_vel) * 0.25;
+    m_linear_y = m_wheels_radius * (-wheel0_vel + wheel1_vel + wheel2_vel - wheel3_vel) * 0.25;
+    m_angular_z = m_wheels_radius / m_wheels_k * (-wheel0_vel + wheel1_vel - wheel2_vel + wheel3_vel) * 0.25;
 
     m_fIntegrate(m_linear_x* dt, m_linear_y*dt, m_angular_z*dt);
 

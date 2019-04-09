@@ -137,10 +137,10 @@ namespace mecanum_wheel_controller
     else
     {
       // get velocity , and convert unit [rpm] to [rad/s] 
-      double wheel0_vel = m_actuatorHandle_wheel0.getVelocity()/ m_mechanical_reduction * M_PI / 30;
-      double wheel1_vel = m_actuatorHandle_wheel1.getVelocity()/ m_mechanical_reduction * M_PI / 30;
-      double wheel2_vel = m_actuatorHandle_wheel2.getVelocity()/ m_mechanical_reduction * M_PI / 30;
-      double wheel3_vel = m_actuatorHandle_wheel3.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel0_vel =  m_actuatorHandle_wheel0.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel1_vel = -m_actuatorHandle_wheel1.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel2_vel =  m_actuatorHandle_wheel2.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel3_vel = -m_actuatorHandle_wheel3.getVelocity()/ m_mechanical_reduction * M_PI / 30;
 
       if (std::isnan(wheel0_vel) || std::isnan(wheel1_vel) || std::isnan(wheel2_vel) || std::isnan(wheel3_vel))
         return;
@@ -193,10 +193,10 @@ namespace mecanum_wheel_controller
       m_last_cmd = current_cmd;
 
       // Caculate 4 wheel velocity , and  convert unit [m/s] / [rpm]
-      const double w0_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-      const double w1_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-      const double w2_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-      const double w3_vel = 1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w0_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w1_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w2_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+      const double w3_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
 
       m_actuatorHandle_wheel0.setCommand(w0_vel);
       m_actuatorHandle_wheel1.setCommand(w1_vel);
@@ -276,9 +276,7 @@ namespace mecanum_wheel_controller
         return false;
       }
 
-      ROS_INFO_STREAM("Loaded Robot Model: " + robot_model_str);
       urdf::ModelInterfaceSharedPtr model(urdf::parseURDF(robot_model_str));
-      
       // Get wheels position and compute parameter k_ (used in mecanum wheels IK).
       urdf::JointConstSharedPtr wheel0_urdfJoint(model->getJoint("forward_left_joint"));
       if(!wheel0_urdfJoint)
