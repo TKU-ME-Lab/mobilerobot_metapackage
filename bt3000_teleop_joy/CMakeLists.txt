@@ -131,7 +131,7 @@ add_library(cbt3000_teleop_joy
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/bt3000_teleop_joy_node.cpp)
+add_executable(bt3000_teleop_joy_node src/bt3000_teleop_joy_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,6 +146,11 @@ add_library(cbt3000_teleop_joy
 ## Specify libraries to link a library or executable target against
 target_link_libraries(cbt3000_teleop_joy
   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(bt3000_teleop_joy_node
+  ${catkin_LIBRARIES}
+  cbt3000_teleop_joy
 )
 
 #############
