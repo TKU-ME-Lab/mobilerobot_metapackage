@@ -275,7 +275,7 @@ namespace mecanum_wheel_controller
         return false;
       }
 
-      ROS_INFO_NAMED(robot_model_str, "Loaded");
+      ROS_INFO_STREAM("Loaded Robot Model: " + robot_model_str);
       urdf::ModelInterfaceSharedPtr model(urdf::parseURDF(robot_model_str));
 
       // Get wheels position and compute parameter k_ (used in mecanum wheels IK).
