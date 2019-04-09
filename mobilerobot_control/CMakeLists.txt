@@ -22,6 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
 set(mecanum_wheel_controller_sources
   src/cmecanum_wheel_controller.cpp
   src/codometry.cpp
+  src/cspeed_limiter.cpp
 )
 
 ###################################

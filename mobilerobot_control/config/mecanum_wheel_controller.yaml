@@ -1,13 +1,13 @@
-mobilerobot_joint_publisher:
-  type: "joint_state_controller/JointStateController"
-  publish_rate: 50
+# mobilerobot_joint_publisher:
+#   type: joint_state_controller/JointStateController
+#   publish_rate: 50
 
 mobile_chassis_velocity_controller:
   type: "mecanum_wheel_controller/MecanumWheelController"
-  front_left_wheel_joint: "forward_left_joint"
-  back_left_wheel_joint: "backward_left_joint"
-  front_right_wheel_joint: "forward_right_joint"
-  back_right_wheel_joint: "backward_right_joint"
+  front_left_wheel_joint: "forward_left_actuator"
+  back_left_wheel_joint: "backward_left_actuator"
+  front_right_wheel_joint: "forward_right_actuator"
+  back_right_wheel_joint: "backward_right_actuator"
   publish_rate: 50
   pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
   twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
