@@ -5,6 +5,7 @@
 
   <!-- dynamixel hardware -->
 
-  <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch"/>  
+  <!-- <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch"/>   -->
   
+  <include file="$(find epos_hardware)/launch/epos_hardware.launch"/>
 </launch>
