@@ -44,7 +44,6 @@
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.041" radius="0.075565"/>
-        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -71,7 +70,6 @@
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.041" radius="0.075565"/>
-        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -98,7 +96,6 @@
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.041" radius="0.075565"/>
-        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -125,13 +122,48 @@
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.041" radius="0.075565"/>
-        <!-- <mesh filename="package://mobilerobot_description/meshes/mecanum_link.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
       </material>
     </collision>
   </link>
+  <transmission name="forward_left_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="forward_left_joint">
+      <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
+    </joint>
+    <actuator name="forward_left_actuator">
+      <mechanicalReduction>156</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="forward_right_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="forward_right_joint">
+      <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
+    </joint>
+    <actuator name="forward_right_actuator">
+      <mechanicalReduction>156</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="backward_left_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="backward_left_joint">
+      <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
+    </joint>
+    <actuator name="backward_left_actuator">
+      <mechanicalReduction>156</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="backward_right_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="backward_right_joint">
+      <hardwareInterface>hardware_interface/VelocityActuatorInterface</hardwareInterface>
+    </joint>
+    <actuator name="backward_right_actuator">
+      <mechanicalReduction>156</mechanicalReduction>
+    </actuator>
+  </transmission>
   <link name="link1">
     <visual>
       <origin rpy="0 0 -1.57079632679" xyz="0.09 0 0"/>

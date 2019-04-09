@@ -1,10 +1,10 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="mobile_chassis_transmission" params="prefix">
+  <xacro:macro name="mobile_chassis_transmission" params="prefix hw_interface">
     <transmission name="${prefix}forward_left_joint_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="forward_left_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>${hw_interface}</hardwareInterface>
       </joint>
       <actuator name="forward_left_actuator">
         <mechanicalReduction>156</mechanicalReduction>
@@ -14,7 +14,7 @@
     <transmission name="${prefix}forward_right_joint_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="forward_right_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>${hw_interface}</hardwareInterface>
       </joint>
       <actuator name="forward_right_actuator">
         <mechanicalReduction>156</mechanicalReduction>
@@ -24,7 +24,7 @@
     <transmission name="backward_left_joint_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="backward_left_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>${hw_interface}</hardwareInterface>
       </joint>
       <actuator name="backward_left_actuator">
         <mechanicalReduction>156</mechanicalReduction>
@@ -34,7 +34,7 @@
     <transmission name="backward_right_joint_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="backward_right_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>${hw_interface}</hardwareInterface>
       </joint>
       <actuator name="backward_right_actuator">
         <mechanicalReduction>156</mechanicalReduction>
