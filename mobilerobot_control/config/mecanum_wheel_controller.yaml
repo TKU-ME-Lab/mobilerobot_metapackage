@@ -33,12 +33,12 @@ mobile_chassis_velocity_controller:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 0.35   # m/s
+      max_velocity           : 0.15   # m/s
       has_acceleration_limits: false
       max_acceleration       : 1.0    # m/s^2
     y:
       has_velocity_limits    : true
-      max_velocity           : 0.35   # m/s
+      max_velocity           : 0.15   # m/s
       has_acceleration_limits: false
       max_acceleration       : 1.0    # m/s^2
   angular:
