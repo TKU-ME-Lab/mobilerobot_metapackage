@@ -308,6 +308,15 @@
       </material>
     </visual>
   </link>
+  <transmission name="ball_screw_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="ball_screw_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="oriental_motor_actuator">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
   <link name="world"/>
   <joint name="world_joint" type="fixed">
     <parent link="world"/>

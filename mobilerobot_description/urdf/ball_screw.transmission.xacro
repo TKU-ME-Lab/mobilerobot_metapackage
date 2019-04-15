@@ -1,0 +1,15 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="ball_screw_transmission" params="prefix hw_interface">
+    <transmission name="${prefix}ball_screw_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="ball_screw_joint">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="oriental_motor_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+</robot>

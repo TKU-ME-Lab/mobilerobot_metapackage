@@ -4,9 +4,12 @@
 
   <xacro:include filename="$(find mobilerobot_description)/urdf/mobile_chassis.urdf.xacro"/>
   <xacro:include filename="$(find mobilerobot_description)/urdf/manipulator.urdf.xacro"/>
+  <xacro:include filename="$(find mobilerobot_description)/urdf/ball_screw.transmission.xacro"/>
 
   <xacro:mobile_chassis prefix=""/>
   <xacro:manipulator prefix="" joint2_upper_limit="0"/>
+
+  <xacro:ball_screw_transmission prefix="" hw_interface="hardware_interface/PositionJointInterface"/>
 
   <xacro:property name="ball_screw_lower_limit" value="-0.77"/>
   <xacro:property name="ball_screw_upper_limit" value="0"/>
