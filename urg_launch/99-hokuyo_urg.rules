@@ -1,0 +1,5 @@
+#cp rules /etc/udev/rules.d/
+#sudo udevadm control --reload-rules
+#sudo udevadm trigger
+
+SUBSYSTEMS=="usb", KERNEL=="ttyACM*", ACTION=="add", ATTRS{idVendor}=="15d1", ATTRS{idProduct}=="0000", MODE="666", SYMLINK+="hokuyo"

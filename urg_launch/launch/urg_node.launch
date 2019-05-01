@@ -1,0 +1,26 @@
+<launch>
+  <arg name="ip_address" default=""/>
+  <arg name="serial_port" value="/dev/hokuyo"/>
+  <arg name="serial_baud" value="115200"/>
+  <arg name="frame_id" value="odom"/>
+  <arg name="calibrate_time" default=""/>
+  <arg name="publish_intensity" default=""/>
+  <arg name="publish_multiecho" default=""/>
+  <arg name="angle_min" value="-1.5707963"/>
+  <arg name="angle_max" value="1.5707963"/>
+
+
+  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
+    <param name="ip_address"        value="$(arg ip_address)"/>
+    <param name="serial_port"       value="$(arg serial_port)"/>
+    <param name="serial_baud"       value="$(arg serial_baud)"/>
+    <param name="frame_id"          value="$(arg frame_id)"/>
+    <param name="calibrate_time"    value="$(arg calibrate_time)"/>
+    <param name="publish_intensity" value="$(arg publish_intensity)"/>
+    <param name="publish_multiecho" value="$(arg publish_multiecho)"/>
+    <param name="angle_min"         value="$(arg angle_min)"/>
+    <param name="angle_max"         value="$(arg angle_max)"/>
+  </node>
+
+
+</launch>
