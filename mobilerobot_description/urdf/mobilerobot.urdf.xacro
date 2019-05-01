@@ -48,4 +48,30 @@
     <origin xyz="0.048 0 0.075" rpy="0 0 0"/>
   </joint>
 
+  <joint name="hokuyo_fixed" type="fixed">
+    <parent link="base_link"/>
+    <child link="hokuyo_link"/>
+    <origin xyz="0.373 0 0.005" rpy="0 0 0"/>
+  </joint>
+
+  <link name="hokuyo_link">
+    <visual>
+      <origin xyz="-0.0192 -0.0192 0" rpy="1.57079632679 0 1.57079632679"/>
+      <geometry>
+        <mesh filename="package://mobilerobot_description/meshes/hokuyo_urg_04.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="odom_fixed" type="fixed">
+    <parent link="hokuyo_link"/>
+    <child link="odom"/>
+    <origin xyz="-0.0192 -0.0192 0.065" rpy="0 0 0"/>
+  </joint>
+
+  <link name="odom"/>
+
 </robot>
