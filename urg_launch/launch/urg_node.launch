@@ -6,8 +6,8 @@
   <arg name="calibrate_time" default=""/>
   <arg name="publish_intensity" default=""/>
   <arg name="publish_multiecho" default=""/>
-  <arg name="angle_min" value="-1.5707963"/>
-  <arg name="angle_max" value="1.5707963"/>
+  <arg name="angle_min" value="-1.25663706"/>
+  <arg name="angle_max" value="1.4137167"/>
 
 
   <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
