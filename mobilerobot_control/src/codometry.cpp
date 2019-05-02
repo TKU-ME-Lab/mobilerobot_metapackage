@@ -31,7 +31,7 @@ namespace mecanum_wheel_controller
       return false;
 
     m_time_stamp = time;
-
+    ROS_INFO_STREAM("Update Time:" + std::to_string(time.toSec()));
     m_linear_x = m_wheels_radius * ( wheel0_vel + wheel1_vel + wheel2_vel + wheel3_vel) * 0.25;
     m_linear_y = m_wheels_radius * (-wheel0_vel + wheel1_vel + wheel2_vel - wheel3_vel) * 0.25;
     m_angular_z = m_wheels_radius / m_wheels_k * (-wheel0_vel + wheel1_vel - wheel2_vel + wheel3_vel) * 0.25;
@@ -49,6 +49,7 @@ namespace mecanum_wheel_controller
 
     const double dt = (time - m_time_stamp).toSec();
     m_time_stamp = time;
+    ROS_INFO_STREAM("Update Open Time:" + std::to_string(time.toSec()));
     m_fIntegrate(linearX *dt, linearY *dt, angularZ *dt);
   }
 
@@ -67,6 +68,8 @@ namespace mecanum_wheel_controller
 
     m_pose_x += vel_inOdom.x();
     m_pose_y += vel_inOdom.y();
+
+    ROS_INFO_STREAM("Pose X:" + std::to_string(m_pose_x) + ", Y:" + std::to_string(m_pose_y) + ", Angle:" + std::to_string(m_pose_heading));
   }
 
 } // namespace mecanum_wheel_controller
