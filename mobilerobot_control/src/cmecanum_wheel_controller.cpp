@@ -3,6 +3,7 @@
 #include <boost/assign.hpp>
 #include <boost/foreach.hpp>
 #include <mobilerobot_control/cmecanum_wheel_controller.h>
+#include <iostream>
 
 static bool isCylinderOrSphere(const urdf::LinkConstSharedPtr &link)
 {
@@ -169,10 +170,10 @@ namespace mecanum_wheel_controller
       if (m_enable_odom_if && m_pub_tf->trylock())
       {
         geometry_msgs::TransformStamped& odom_frame = m_pub_tf->msg_.transforms[0];
-        m_odom_frame.header.stamp = time;
-        m_odom_frame.transform.translation.x = m_odometry.getPoseX();
-        m_odom_frame.transform.translation.y = m_odometry.getPoseY();
-        m_odom_frame.transform.rotation = orietation;
+        odom_frame.header.stamp = time;
+        odom_frame.transform.translation.x = m_odometry.getPoseX();
+        odom_frame.transform.translation.y = m_odometry.getPoseY();
+        odom_frame.transform.rotation = orietation;
         m_pub_tf->unlockAndPublish();
       }
 
