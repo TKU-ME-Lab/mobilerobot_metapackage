@@ -153,14 +153,14 @@ namespace mecanum_wheel_controller
     {
       m_last_state_publish_time += m_publish_period;
 
-      const geometry_msgs::Quaternion orietation(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
+      const geometry_msgs::Quaternion orientation_(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
 
       if (m_pub_odometry->trylock())
       {
         m_pub_odometry->msg_.header.stamp = time;
         m_pub_odometry->msg_.pose.pose.position.x = m_odometry.getPoseX();
         m_pub_odometry->msg_.pose.pose.position.y = m_odometry.getPoseY();
-        m_pub_odometry->msg_.pose.pose.orientation = orietation;
+        m_pub_odometry->msg_.pose.pose.orientation = orientation_;
         m_pub_odometry->msg_.twist.twist.linear.x = m_odometry.getlinearX();
         m_pub_odometry->msg_.twist.twist.linear.y = m_odometry.getlinearX();
         m_pub_odometry->msg_.twist.twist.angular.z = m_odometry.getAngularZ();
@@ -173,7 +173,7 @@ namespace mecanum_wheel_controller
         odom_frame.header.stamp = time;
         odom_frame.transform.translation.x = m_odometry.getPoseX();
         odom_frame.transform.translation.y = m_odometry.getPoseY();
-        odom_frame.transform.rotation = orietation;
+        odom_frame.transform.rotation = orientation_;
         m_pub_tf->unlockAndPublish();
       }
 
