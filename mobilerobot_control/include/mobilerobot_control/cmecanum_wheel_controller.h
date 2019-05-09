@@ -5,6 +5,7 @@
 #include <urdf_parser/urdf_parser.h>
 #include <nav_msgs/Odometry.h>
 #include <tf/tfMessage.h>
+#include <tf/transform_broadcaster.h>
 
 #include <realtime_tools/realtime_buffer.h>
 #include <realtime_tools/realtime_publisher.h>
@@ -44,8 +45,8 @@ namespace mecanum_wheel_controller
 
     ros::Subscriber m_sub_command;
 
-    boost::shared_ptr<realtime_tools::RealtimePublisher<nav_msgs::Odometry> > m_pub_odometry;
-    boost::shared_ptr<realtime_tools::RealtimePublisher<tf::tfMessage> >      m_pub_tf;
+    ros::Publisher     m_pub_odometry;
+    tf::TransformBroadcaster m_pub_tf;
 
     COdometry m_odometry;
     geometry_msgs::TransformStamped m_odom_frame;

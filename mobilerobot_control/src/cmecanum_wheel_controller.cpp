@@ -155,27 +155,28 @@ namespace mecanum_wheel_controller
 
       const geometry_msgs::Quaternion orientation_(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
 
-      if (m_pub_odometry->trylock())
-      {
-        m_pub_odometry->msg_.header.stamp = time;
-        m_pub_odometry->msg_.pose.pose.position.x = m_odometry.getPoseX();
-        m_pub_odometry->msg_.pose.pose.position.y = m_odometry.getPoseY();
-        m_pub_odometry->msg_.pose.pose.orientation = orientation_;
-        m_pub_odometry->msg_.twist.twist.linear.x = m_odometry.getlinearX();
-        m_pub_odometry->msg_.twist.twist.linear.y = m_odometry.getlinearX();
-        m_pub_odometry->msg_.twist.twist.angular.z = m_odometry.getAngularZ();
-        m_pub_odometry->unlockAndPublish();
-      }
+      nav_msgs::Odometry odom_msg;
+      odom_msg.header.stamp = time;
+      odom_msg.header.frame_id = "odom";
+      odom_msg.child_frame_id = m_base_frame_id;
+      odom_msg.pose.pose.position.x = m_odometry.getPoseX();
+      odom_msg.pose.pose.position.y = m_odometry.getPoseY();
+      odom_msg.pose.pose.position.z = 0;
+      odom_msg.pose.pose.orientation = orientation_;
+      odom_msg.twist.twist.linear.x = m_odometry.getlinearX();
+      odom_msg.twist.twist.linear.y = m_odometry.getlinearY();
+      odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
+      m_pub_odometry.publish(odom_msg);
 
-      if (m_enable_odom_if && m_pub_tf->trylock())
-      {
-        geometry_msgs::TransformStamped& odom_frame = m_pub_tf->msg_.transforms[0];
-        odom_frame.header.stamp = time;
-        odom_frame.transform.translation.x = m_odometry.getPoseX();
-        odom_frame.transform.translation.y = m_odometry.getPoseY();
-        odom_frame.transform.rotation = orientation_;
-        m_pub_tf->unlockAndPublish();
-      }
+      geometry_msgs::TransformStamped odom_trans;
+      odom_trans.header.stamp = time;
+      odom_trans.header.frame_id = "odom";
+      odom_trans.child_frame_id = m_base_frame_id;
+      odom_trans.transform.translation.x = m_odometry.getPoseX();
+      odom_trans.transform.translation.y = m_odometry.getPoseY();
+      odom_trans.transform.translation.z = 0;
+      odom_trans.transform.rotation      = orientation_;
+      m_pub_tf.sendTransform(odom_trans);
 
       Commands current_cmd = *(m_command.readFromRT());
       const double dt = (time - current_cmd.stamp).toSec();
@@ -439,34 +440,6 @@ namespace mecanum_wheel_controller
       ROS_ASSERT(twist_cov_list[i].getType() == XmlRpc::XmlRpcValue::TypeDouble);
 
     // Setup odometry msg.
-    m_pub_odometry.reset(new realtime_tools::RealtimePublisher<nav_msgs::Odometry>(controller_nh, "odom", 100));
-    m_pub_odometry->msg_.header.frame_id = "odom";
-    m_pub_odometry->msg_.child_frame_id = m_base_frame_id;
-    m_pub_odometry->msg_.pose.pose.position.z = 0;
-    m_pub_odometry->msg_.pose.covariance = boost::assign::list_of
-        (static_cast<double>(pose_cov_list[0])) (0)  (0)  (0)  (0)  (0)
-        (0)  (static_cast<double>(pose_cov_list[1])) (0)  (0)  (0)  (0)
-        (0)  (0)  (static_cast<double>(pose_cov_list[2])) (0)  (0)  (0)
-        (0)  (0)  (0)  (static_cast<double>(pose_cov_list[3])) (0)  (0)
-        (0)  (0)  (0)  (0)  (static_cast<double>(pose_cov_list[4])) (0)
-        (0)  (0)  (0)  (0)  (0)  (static_cast<double>(pose_cov_list[5]));
-    m_pub_odometry->msg_.twist.twist.linear.y  = 0;
-    m_pub_odometry->msg_.twist.twist.linear.z  = 0;
-    m_pub_odometry->msg_.twist.twist.angular.x = 0;
-    m_pub_odometry->msg_.twist.twist.angular.y = 0;
-    m_pub_odometry->msg_.twist.covariance = boost::assign::list_of
-        (static_cast<double>(twist_cov_list[0])) (0)  (0)  (0)  (0)  (0)
-        (0)  (static_cast<double>(twist_cov_list[1])) (0)  (0)  (0)  (0)
-        (0)  (0)  (static_cast<double>(twist_cov_list[2])) (0)  (0)  (0)
-        (0)  (0)  (0)  (static_cast<double>(twist_cov_list[3])) (0)  (0)
-        (0)  (0)  (0)  (0)  (static_cast<double>(twist_cov_list[4])) (0)
-        (0)  (0)  (0)  (0)  (0)  (static_cast<double>(twist_cov_list[5]));
-
-    // Setup tf msg.
-    m_pub_tf.reset(new realtime_tools::RealtimePublisher<tf::tfMessage>(root_nh, "/tf", 100));
-    m_pub_tf->msg_.transforms.resize(1);
-    m_pub_tf->msg_.transforms[0].transform.translation.z = 0.0;
-    m_pub_tf->msg_.transforms[0].child_frame_id = m_base_frame_id;
-    m_pub_tf->msg_.transforms[0].header.frame_id = "odom";
+    m_pub_odometry = controller_nh.advertise<nav_msgs::Odometry>("odom", 50);
   }
 } // mecanum_wheel_controller
