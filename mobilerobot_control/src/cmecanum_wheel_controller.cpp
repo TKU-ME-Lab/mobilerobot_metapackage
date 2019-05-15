@@ -149,62 +149,57 @@ namespace mecanum_wheel_controller
       m_odometry.update(wheel0_vel, wheel1_vel, wheel2_vel, wheel3_vel, time);
     }
 
-    if (m_last_state_publish_time + m_publish_period < time)
+    const geometry_msgs::Quaternion orientation_(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
+
+    nav_msgs::Odometry odom_msg;
+    odom_msg.header.stamp = time;
+    odom_msg.header.frame_id = "odom";
+    odom_msg.child_frame_id = m_base_frame_id;
+    odom_msg.pose.pose.position.x = m_odometry.getPoseX();
+    odom_msg.pose.pose.position.y = m_odometry.getPoseY();
+    odom_msg.pose.pose.position.z = 0;
+    odom_msg.pose.pose.orientation = orientation_;
+    odom_msg.twist.twist.linear.x = m_odometry.getlinearX();
+    odom_msg.twist.twist.linear.y = m_odometry.getlinearY();
+    odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
+    m_pub_odometry.publish(odom_msg);
+
+    geometry_msgs::TransformStamped odom_trans;
+    odom_trans.header.stamp = time;
+    odom_trans.header.frame_id = "odom";
+    odom_trans.child_frame_id = m_base_frame_id;
+    odom_trans.transform.translation.x = m_odometry.getPoseX();
+    odom_trans.transform.translation.y = m_odometry.getPoseY();
+    odom_trans.transform.translation.z = 0;
+    odom_trans.transform.rotation      = orientation_;
+    m_pub_tf.sendTransform(odom_trans);
+
+    Commands current_cmd = *(m_command.readFromRT());
+    const double dt = (time - current_cmd.stamp).toSec();
+
+    if (dt > m_cmd_vel_timeout)
     {
-      m_last_state_publish_time += m_publish_period;
-
-      const geometry_msgs::Quaternion orientation_(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
-
-      nav_msgs::Odometry odom_msg;
-      odom_msg.header.stamp = time;
-      odom_msg.header.frame_id = "odom";
-      odom_msg.child_frame_id = m_base_frame_id;
-      odom_msg.pose.pose.position.x = m_odometry.getPoseX();
-      odom_msg.pose.pose.position.y = m_odometry.getPoseY();
-      odom_msg.pose.pose.position.z = 0;
-      odom_msg.pose.pose.orientation = orientation_;
-      odom_msg.twist.twist.linear.x = m_odometry.getlinearX();
-      odom_msg.twist.twist.linear.y = m_odometry.getlinearY();
-      odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
-      m_pub_odometry.publish(odom_msg);
-
-      geometry_msgs::TransformStamped odom_trans;
-      odom_trans.header.stamp = time;
-      odom_trans.header.frame_id = "odom";
-      odom_trans.child_frame_id = m_base_frame_id;
-      odom_trans.transform.translation.x = m_odometry.getPoseX();
-      odom_trans.transform.translation.y = m_odometry.getPoseY();
-      odom_trans.transform.translation.z = 0;
-      odom_trans.transform.rotation      = orientation_;
-      m_pub_tf.sendTransform(odom_trans);
-
-      Commands current_cmd = *(m_command.readFromRT());
-      const double dt = (time - current_cmd.stamp).toSec();
-
-      if (dt > m_cmd_vel_timeout)
-      {
-        current_cmd.linear_x = 0.0;
-        current_cmd.linear_y = 0.0;
-        current_cmd.angular_z = 0.0;
-      }
-
-      const double cmd_dt(period.toSec());
-      m_limiter_linear_X.limit(current_cmd.linear_x, m_last_cmd.linear_x, cmd_dt);
-      m_limiter_linear_Y.limit(current_cmd.linear_y, m_last_cmd.linear_y, cmd_dt);
-      m_limiter_angular_Z.limit(current_cmd.angular_z, m_last_cmd.angular_z, cmd_dt);
-      m_last_cmd = current_cmd;
-
-      // Caculate 4 wheel velocity , and  convert unit [m/s] / [rpm]
-      const double w0_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-      const double w1_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-      const double w2_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-      const double w3_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
-
-      m_actuatorHandle_wheel0.setCommand(w0_vel);
-      m_actuatorHandle_wheel1.setCommand(w1_vel);
-      m_actuatorHandle_wheel2.setCommand(w2_vel);
-      m_actuatorHandle_wheel3.setCommand(w3_vel);
+      current_cmd.linear_x = 0.0;
+      current_cmd.linear_y = 0.0;
+      current_cmd.angular_z = 0.0;
     }
+
+    const double cmd_dt(period.toSec());
+    m_limiter_linear_X.limit(current_cmd.linear_x, m_last_cmd.linear_x, cmd_dt);
+    m_limiter_linear_Y.limit(current_cmd.linear_y, m_last_cmd.linear_y, cmd_dt);
+    m_limiter_angular_Z.limit(current_cmd.angular_z, m_last_cmd.angular_z, cmd_dt);
+    m_last_cmd = current_cmd;
+
+    // Caculate 4 wheel velocity , and  convert unit [m/s] / [rpm]
+    const double w0_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+    const double w1_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+    const double w2_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+    const double w3_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
+
+    m_actuatorHandle_wheel0.setCommand(w0_vel);
+    m_actuatorHandle_wheel1.setCommand(w1_vel);
+    m_actuatorHandle_wheel2.setCommand(w2_vel);
+    m_actuatorHandle_wheel3.setCommand(w3_vel);
   }
 
   void CMecanumWheelController::starting(const ros::Time &time)
