@@ -149,25 +149,30 @@ namespace mecanum_wheel_controller
       m_odometry.update(wheel0_vel, wheel1_vel, wheel2_vel, wheel3_vel, time);
     }
 
-    const geometry_msgs::Quaternion orientation_(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
+    const geometry_msgs::Quaternion odom_Quaternion(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
+
+    geometry_msgs::TransformStamped odom_trans;
+    odom_trans.header.stamp = time;
+    odom_trans.header.frame_id = "odom";
+    odom_trans.child_frame_id = "base_link";
+    odom_trans.transform.translation.x = m_odometry.getPoseX();
+    odom_trans.transform.translation.y = m_odometry.getPoseY();
+    odom_trans.transform.translation.z = 0.0;
+    odom_trans.transform.rotation      = odom_Quaternion;
+    m_tf_broadcaster.sendTransform(odom_trans);
 
     nav_msgs::Odometry odom_msg;
     odom_msg.header.stamp = time;
     odom_msg.header.frame_id = "odom";
-    odom_msg.child_frame_id = m_base_frame_id;
+    odom_msg.child_frame_id = "base_link";
     odom_msg.pose.pose.position.x = m_odometry.getPoseX();
     odom_msg.pose.pose.position.y = m_odometry.getPoseY();
     odom_msg.pose.pose.position.z = 0;
-    odom_msg.pose.pose.orientation = orientation_;
+    odom_msg.pose.pose.orientation = odom_Quaternion;
     odom_msg.twist.twist.linear.x = m_odometry.getlinearX();
     odom_msg.twist.twist.linear.y = m_odometry.getlinearY();
     odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
     m_pub_odometry.publish(odom_msg);
-
-    tf::Transform transform;
-    transform.setOrigin(tf::Vector3(m_odometry.getPoseX(),m_odometry.getPoseY(), 0.0));
-    transform.setRotation(tf::Quaternion(orientation_.x, orientation_.y, orientation_.z, orientation_.w));
-    m_pub_tf.sendTransform(tf::StampedTransform(transform, time, "odom", "base_link"));
 
     Commands current_cmd = *(m_command.readFromRT());
     const double dt = (time - current_cmd.stamp).toSec();

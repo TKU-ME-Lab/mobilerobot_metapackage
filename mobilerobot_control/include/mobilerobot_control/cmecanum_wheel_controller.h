@@ -46,7 +46,7 @@ namespace mecanum_wheel_controller
     ros::Subscriber m_sub_command;
 
     ros::Publisher     m_pub_odometry;
-    tf::TransformBroadcaster m_pub_tf;
+    tf::TransformBroadcaster m_tf_broadcaster;
 
     COdometry m_odometry;
     geometry_msgs::TransformStamped m_odom_frame;
