@@ -68,10 +68,10 @@
 
   <joint name="odom_fixed" type="fixed">
     <parent link="hokuyo_link"/>
-    <child link="odom"/>
+    <child link="hokuyo_scan"/>
     <origin xyz="-0.0192 -0.0192 0.065" rpy="0 0 0"/>
   </joint>
 
-  <link name="odom"/>
+  <link name="hokuyo_scan"/>
 
 </robot>

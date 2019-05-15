@@ -9,7 +9,7 @@
   
   <include file="$(find epos_hardware)/launch/epos_hardware.launch"/>
 
-  <include file="$(find mobilerobot_control)/launch/mecanum_wheel_controller_load.launch">
+  <include file="$(find mobilerobot_control)/launch/mecanum_wheel_controller_load.launch"/>
 
-  <include file="$(find urg_launch)/launch/urg_node.launch">
+  <include file="$(find urg_launch)/launch/urg_node.launch"/>
 </launch>
