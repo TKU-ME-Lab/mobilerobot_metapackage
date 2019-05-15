@@ -164,15 +164,10 @@ namespace mecanum_wheel_controller
     odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
     m_pub_odometry.publish(odom_msg);
 
-    geometry_msgs::TransformStamped odom_trans;
-    odom_trans.header.stamp = time;
-    odom_trans.header.frame_id = "odom";
-    odom_trans.child_frame_id = m_base_frame_id;
-    odom_trans.transform.translation.x = m_odometry.getPoseX();
-    odom_trans.transform.translation.y = m_odometry.getPoseY();
-    odom_trans.transform.translation.z = 0;
-    odom_trans.transform.rotation      = orientation_;
-    m_pub_tf.sendTransform(odom_trans);
+    tf::Transform transform;
+    transform.setOrigin(tf::Vector3(m_odometry.getPoseX(),m_odometry.getPoseY(), 0.0));
+    transform.setRotation(tf::Quaternion(orientation_.x, orientation_.y, orientation_.z, orientation_.w));
+    m_pub_tf.sendTransform(tf::StampedTransform(transform, time, "odom", "base_link"));
 
     Commands current_cmd = *(m_command.readFromRT());
     const double dt = (time - current_cmd.stamp).toSec();
