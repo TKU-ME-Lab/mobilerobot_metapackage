@@ -43,7 +43,7 @@ namespace mecanum_wheel_controller
   {
   }
 
-  bool CMecanumWheelController::init(hardware_interface::VelocityActuatorInterface* hw,
+  bool CMecanumWheelController::init(hardware_interface::VelocityJointInterface* hw,
                                     ros::NodeHandle& nh, ros::NodeHandle &controller_nh)
   {
     const std::string complete_ns = controller_nh.getNamespace();
@@ -114,10 +114,10 @@ namespace mecanum_wheel_controller
     ROS_INFO_STREAM_NAMED(m_name, "Mechanical Reduction: " << m_mechanical_reduction);
 
     // Get the joint objects to use in the realtime loop
-    m_actuatorHandle_wheel0 = hw->getHandle(wheel0_name);  // throws on failure
-    m_actuatorHandle_wheel1 = hw->getHandle(wheel1_name);  // throws on failure
-    m_actuatorHandle_wheel2 = hw->getHandle(wheel2_name);  // throws on failure
-    m_actuatorHandle_wheel3 = hw->getHandle(wheel3_name);  // throws on failure
+    m_jointHandle_wheel0 = hw->getHandle(wheel0_name);  // throws on failure
+    m_jointHandle_wheel1 = hw->getHandle(wheel1_name);  // throws on failure
+    m_jointHandle_wheel2 = hw->getHandle(wheel2_name);  // throws on failure
+    m_jointHandle_wheel3 = hw->getHandle(wheel3_name);  // throws on failure
 
     if (!setWheelParamsFromUrdf(nh, controller_nh, wheel0_name, wheel1_name, wheel2_name, wheel3_name))
       return false;
@@ -138,10 +138,10 @@ namespace mecanum_wheel_controller
     else
     {
       // get velocity , and convert unit [rpm] to [rad/s] 
-      double wheel0_vel =  m_actuatorHandle_wheel0.getVelocity()/ m_mechanical_reduction * M_PI / 30;
-      double wheel1_vel = -m_actuatorHandle_wheel1.getVelocity()/ m_mechanical_reduction * M_PI / 30;
-      double wheel2_vel =  m_actuatorHandle_wheel2.getVelocity()/ m_mechanical_reduction * M_PI / 30;
-      double wheel3_vel = -m_actuatorHandle_wheel3.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel0_vel =  m_jointHandle_wheel0.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel1_vel = -m_jointHandle_wheel1.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel2_vel =  m_jointHandle_wheel2.getVelocity()/ m_mechanical_reduction * M_PI / 30;
+      double wheel3_vel = -m_jointHandle_wheel3.getVelocity()/ m_mechanical_reduction * M_PI / 30;
 
       if (std::isnan(wheel0_vel) || std::isnan(wheel1_vel) || std::isnan(wheel2_vel) || std::isnan(wheel3_vel))
         return;
@@ -196,10 +196,10 @@ namespace mecanum_wheel_controller
     const double w2_vel =  1.0 / m_wheels_radius * (current_cmd.linear_x + current_cmd.linear_y - m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
     const double w3_vel = -1.0 / m_wheels_radius * (current_cmd.linear_x - current_cmd.linear_y + m_wheels_k * current_cmd.angular_z) * m_mechanical_reduction * 30 / M_PI;
 
-    m_actuatorHandle_wheel0.setCommand(w0_vel);
-    m_actuatorHandle_wheel1.setCommand(w1_vel);
-    m_actuatorHandle_wheel2.setCommand(w2_vel);
-    m_actuatorHandle_wheel3.setCommand(w3_vel);
+    m_jointHandle_wheel0.setCommand(w0_vel);
+    m_jointHandle_wheel1.setCommand(w1_vel);
+    m_jointHandle_wheel2.setCommand(w2_vel);
+    m_jointHandle_wheel3.setCommand(w3_vel);
   }
 
   void CMecanumWheelController::starting(const ros::Time &time)
@@ -217,10 +217,10 @@ namespace mecanum_wheel_controller
 
   void CMecanumWheelController::brake()
   {
-    m_actuatorHandle_wheel0.setCommand(0.0);
-    m_actuatorHandle_wheel1.setCommand(0.0);
-    m_actuatorHandle_wheel2.setCommand(0.0);
-    m_actuatorHandle_wheel3.setCommand(0.0);
+    m_jointHandle_wheel0.setCommand(0.0);
+    m_jointHandle_wheel1.setCommand(0.0);
+    m_jointHandle_wheel2.setCommand(0.0);
+    m_jointHandle_wheel3.setCommand(0.0);
   }
 
   void CMecanumWheelController::cmdVelCallback(const geometry_msgs::Twist& command)

@@ -1,5 +1,5 @@
 #include <controller_interface/controller.h>
-#include <hardware_interface/actuator_command_interface.h>
+#include <hardware_interface/joint_command_interface.h>
 #include <pluginlib/class_list_macros.h>
 
 #include <urdf_parser/urdf_parser.h>
@@ -15,7 +15,7 @@
 
 namespace mecanum_wheel_controller
 {
-  class CMecanumWheelController: public controller_interface::Controller<hardware_interface::VelocityActuatorInterface>
+  class CMecanumWheelController: public controller_interface::Controller<hardware_interface::VelocityJointInterface>
   {
   private:
     std::string m_name;
@@ -25,10 +25,10 @@ namespace mecanum_wheel_controller
     
     bool m_open_loop;
 
-    hardware_interface::ActuatorHandle m_actuatorHandle_wheel0;
-    hardware_interface::ActuatorHandle m_actuatorHandle_wheel1;
-    hardware_interface::ActuatorHandle m_actuatorHandle_wheel2;
-    hardware_interface::ActuatorHandle m_actuatorHandle_wheel3;
+    hardware_interface::JointHandle m_jointHandle_wheel0;
+    hardware_interface::JointHandle m_jointHandle_wheel1;
+    hardware_interface::JointHandle m_jointHandle_wheel2;
+    hardware_interface::JointHandle m_jointHandle_wheel3;
 
     struct  Commands
     {
@@ -88,7 +88,7 @@ namespace mecanum_wheel_controller
   public:
     CMecanumWheelController();
 
-    bool init(hardware_interface::VelocityActuatorInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh);
+    bool init(hardware_interface::VelocityJointInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh);
 
     void update(const ros::Time& time, const ros::Duration& period);
 
