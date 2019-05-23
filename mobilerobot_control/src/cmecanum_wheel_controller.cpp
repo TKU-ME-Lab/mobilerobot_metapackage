@@ -146,30 +146,36 @@ namespace mecanum_wheel_controller
       m_odometry.update(wheel0_vel, wheel1_vel, wheel2_vel, wheel3_vel, time);
     }
 
-    const geometry_msgs::Quaternion odom_Quaternion(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
+    if (m_last_state_publish_time + m_publish_period < time)
+    {
+      m_last_state_publish_time += m_publish_period;
 
-    geometry_msgs::TransformStamped odom_trans;
-    odom_trans.header.stamp = time;
-    odom_trans.header.frame_id = "odom";
-    odom_trans.child_frame_id = "base_link";
-    odom_trans.transform.translation.x = m_odometry.getPoseX();
-    odom_trans.transform.translation.y = m_odometry.getPoseY();
-    odom_trans.transform.translation.z = 0.0;
-    odom_trans.transform.rotation      = odom_Quaternion;
-    m_tf_broadcaster.sendTransform(odom_trans);
+      const geometry_msgs::Quaternion odom_Quaternion(tf::createQuaternionMsgFromYaw(m_odometry.getHeading()));
 
-    nav_msgs::Odometry odom_msg;
-    odom_msg.header.stamp = time;
-    odom_msg.header.frame_id = "odom";
-    odom_msg.child_frame_id = "base_link";
-    odom_msg.pose.pose.position.x = m_odometry.getPoseX();
-    odom_msg.pose.pose.position.y = m_odometry.getPoseY();
-    odom_msg.pose.pose.position.z = 0;
-    odom_msg.pose.pose.orientation = odom_Quaternion;
-    odom_msg.twist.twist.linear.x = m_odometry.getlinearX();
-    odom_msg.twist.twist.linear.y = m_odometry.getlinearY();
-    odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
-    m_pub_odometry.publish(odom_msg);
+      geometry_msgs::TransformStamped odom_trans;
+      odom_trans.header.stamp = time;
+      odom_trans.header.frame_id = "odom";
+      odom_trans.child_frame_id = "base_link";
+      odom_trans.transform.translation.x = m_odometry.getPoseX();
+      odom_trans.transform.translation.y = m_odometry.getPoseY();
+      odom_trans.transform.translation.z = 0.0;
+      odom_trans.transform.rotation      = odom_Quaternion;
+      m_tf_broadcaster.sendTransform(odom_trans);
+
+      nav_msgs::Odometry odom_msg;
+      odom_msg.header.stamp = time;
+      odom_msg.header.frame_id = "odom";
+      odom_msg.child_frame_id = "base_link";
+      odom_msg.pose.pose.position.x = m_odometry.getPoseX();
+      odom_msg.pose.pose.position.y = m_odometry.getPoseY();
+      odom_msg.pose.pose.position.z = 0;
+      odom_msg.pose.pose.orientation = odom_Quaternion;
+      odom_msg.twist.twist.linear.x = m_odometry.getlinearX();
+      odom_msg.twist.twist.linear.y = m_odometry.getlinearY();
+      odom_msg.twist.twist.angular.z = m_odometry.getAngularZ();
+      m_pub_odometry.publish(odom_msg);
+    }
+    
 
     Commands current_cmd = *(m_command.readFromRT());
     const double dt = (time - current_cmd.stamp).toSec();
