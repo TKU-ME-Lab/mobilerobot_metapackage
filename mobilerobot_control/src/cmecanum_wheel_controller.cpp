@@ -341,7 +341,7 @@ namespace mecanum_wheel_controller
 
         // The seperation is the total distance between the wheels in X and Y.
 
-        m_wheels_k = (m_wheel_separation_x + m_wheel_separation_y) / 2.0;
+        m_wheels_k = m_wheel_separation_x + m_wheel_separation_y;
       }
 
       if (lookup_wheel_radius)
