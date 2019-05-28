@@ -362,10 +362,10 @@
       </material>
     </visual>
   </link>
-  <joint name="odom_fixed" type="fixed">
+  <joint name="laser_fixed" type="fixed">
     <parent link="hokuyo_link"/>
-    <child link="hokuyo_scan"/>
+    <child link="laser_scan"/>
     <origin rpy="0 0 0" xyz="-0.0192 -0.0192 0.065"/>
   </joint>
-  <link name="hokuyo_scan"/>
+  <link name="laser_scan"/>
 </robot>

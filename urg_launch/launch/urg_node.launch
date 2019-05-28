@@ -2,7 +2,7 @@
   <arg name="ip_address" default=""/>
   <arg name="serial_port" value="/dev/hokuyo"/>
   <arg name="serial_baud" value="115200"/>
-  <arg name="frame_id" value="hokuyo_scan"/>
+  <arg name="frame_id" value="laser_scan"/>
   <arg name="calibrate_time" default=""/>
   <arg name="publish_intensity" default=""/>
   <arg name="publish_multiecho" default=""/>
