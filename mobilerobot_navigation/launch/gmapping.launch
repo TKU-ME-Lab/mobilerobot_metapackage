@@ -10,8 +10,8 @@
     <remap from="scan" to="$(arg scan_topic)"/>
 
     <!-- Laser Parameters -->
-    <param name="maxUrange" value="1.0"/>
-    <param name="maxRange" value="6.0"/>
+    <param name="maxUrange" value="3.0"/>
+    <param name="maxRange" value="8.0"/>
     <param name="sigma" value="0.05"/>
     <param name="kernelSize" value="1"/>
     <param name="lstep" value="0.05"/>
