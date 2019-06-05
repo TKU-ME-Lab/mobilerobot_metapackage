@@ -1,0 +1,22 @@
+<launch>
+
+  <arg name="base_global_planner" default="navfn/NavfnROS"/>
+  <arg name="base_local_planner" default="dwa_local_planner/DWAPlannerROS"/>
+  <!-- <arg name="base_local_planner" default="base_local_planner/TrajectoryPlannerROS"/> -->
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <rosparam file="$(find mobilerobot_navigation)/configs/costmap_common.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find mobilerobot_navigation)/configs/costmap_common.yaml" command="load" ns="local_costmap" />
+    
+    <rosparam file="$(find mobilerobot_navigation)/configs/map_nav_configs/local_costmap.yaml" command="load" />
+    <rosparam file="$(find mobilerobot_navigation)/configs/map_nav_configs/global_costmap.yaml" command="load" />
+    
+    <rosparam file="$(find mobilerobot_navigation)/configs/base_local_planner.yaml" command="load" />
+    <rosparam file="$(find mobilerobot_navigation)/configs/move_base.yaml" command="load" />
+    
+    <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+  </node>
+
+</launch>
