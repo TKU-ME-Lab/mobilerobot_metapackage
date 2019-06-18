@@ -14,3 +14,9 @@
 	path = dynamixel-workbench-msgs
 	url = https://github.com/ROBOTIS-GIT/dynamixel-workbench-msgs.git
 	branch = kinetic-devel
+[submodule "orientalmotor_hardware"]
+	path = orientalmotor_hardware
+	url = https://github.com/YunRongLi/orientalmotor_hardware.git
+[submodule "orientalmotor_hardware_msgs"]
+	path = orientalmotor_hardware_msgs
+	url = https://github.com/YunRongLi/orientalmotor_hardware_msgs.git
