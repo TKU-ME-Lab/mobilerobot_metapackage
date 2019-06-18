@@ -4,10 +4,13 @@
   <include file="$(find mobilerobot_description)/launch/mobilerobot_upload.launch"/>
 
   <!-- dynamixel hardware -->
-
-  <!-- <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch"/>   -->
+  <include file="$(find dynamixel_hardware)/launch/dynamixel_driver.launch"/>  
   
+  <!-- epos_hardware -->
   <include file="$(find epos_hardware)/launch/epos_hardware.launch"/>
+
+  <!-- oriental_hardware -->
+  <include file="$(find orientalmotor_hardware)/launch/oriental_hardware.launch"/>
 
   <include file="$(find mobilerobot_control)/launch/mecanum_wheel_controller_load.launch"/>
 
