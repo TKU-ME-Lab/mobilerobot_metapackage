@@ -1,0 +1,20 @@
+<launch>
+  <rosparam command="load" file="$(find mobilerobot_bringup)/config/controller_config.yaml"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" 
+    output="screen" args="joint_state_controller 
+                          oriental_position_controller
+                          mobile_chassis_velocity_controller
+                          manipulaotr_trajectory_controller"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" respawn="false" output="screen">
+    <remap from="/joint_states" to="mobilerobot/joint_states"/>
+  </node>
+</launch>
+
+
+
+
+
+
+ 

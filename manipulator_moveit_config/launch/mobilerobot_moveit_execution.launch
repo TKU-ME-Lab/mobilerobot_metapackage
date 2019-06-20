@@ -10,7 +10,6 @@
     <arg name="debug" default="$(arg debug)" />
     <arg name="fake_execution" default="false"/>
     <arg name="publish_monitored_planning_scene" value="true"/>
-    <remap from="joint_states" to="manipulator/joint_states"/>
   </include>
 
   <include file="$(find manipulator_moveit_config)/launch/moveit_rviz.launch">
