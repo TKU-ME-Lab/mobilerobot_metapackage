@@ -7,7 +7,7 @@
   <xacro:include filename="$(find mobilerobot_description)/urdf/ball_screw.transmission.xacro"/>
 
   <xacro:mobile_chassis prefix=""/>
-  <xacro:manipulator prefix="" joint2_upper_limit="0"/>
+  <xacro:manipulator prefix="" joint2_upper_limit="0" joint4_lower_limit="0" joint4_upper_limit="${2*pi/3}"/>
 
   <xacro:ball_screw_transmission prefix="" hw_interface="hardware_interface/PositionJointInterface"/>
 

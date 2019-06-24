@@ -43,7 +43,7 @@
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.041" radius="0.075565"/>
+        <cylinder length="0.041" radius="0.0762"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -69,7 +69,7 @@
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.041" radius="0.075565"/>
+        <cylinder length="0.041" radius="0.0762"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -95,7 +95,7 @@
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.041" radius="0.075565"/>
+        <cylinder length="0.041" radius="0.0762"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -121,7 +121,7 @@
     <collision>
       <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.041" radius="0.075565"/>
+        <cylinder length="0.041" radius="0.0762"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -237,7 +237,7 @@
     <child link="link5"/>
     <origin rpy="0 0 0" xyz="0.03 -0.057 -0.063"/>
     <axis xyz="0 -1 0"/>
-    <limit effort="1000" lower="-1.57079632679" upper="1.57079632679" velocity="6.5"/>
+    <limit effort="1000" lower="0" upper="2.09439510239" velocity="6.5"/>
     <dynamics damping="0.7"/>
   </joint>
   <link name="link5">
