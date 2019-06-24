@@ -1,10 +1,9 @@
 controller_list:
-  - name: manipualtor
+  - name: /velocity_trajectory_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
     joints:
-      - ball_screw_joint
       - joint1
       - joint2
       - joint3

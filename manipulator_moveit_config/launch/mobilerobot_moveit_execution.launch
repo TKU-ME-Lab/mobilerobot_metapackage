@@ -3,13 +3,9 @@
   <arg name="limited" default="false"/>
   <arg name="debug" default="false" />
 
-  <include ns="move_group" file="$(find manipulator_moveit_config)/launch/mobilerobot_moveit_controller_manager.launch.xml"/>
-
   <!-- Launch moveit -->
   <include file="$(find manipulator_moveit_config)/launch/move_group.launch">
     <arg name="debug" default="$(arg debug)" />
-    <arg name="fake_execution" default="false"/>
-    <arg name="publish_monitored_planning_scene" value="true"/>
   </include>
 
   <include file="$(find manipulator_moveit_config)/launch/moveit_rviz.launch">
