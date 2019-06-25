@@ -20,3 +20,18 @@
 [submodule "orientalmotor_hardware_msgs"]
 	path = orientalmotor_hardware_msgs
 	url = https://github.com/YunRongLi/orientalmotor_hardware_msgs.git
+[submodule "robotis_manipulator"]
+	path = robotis_manipulator
+	url = https://github.com/ROBOTIS-GIT/robotis_manipulator.git
+[submodule "DynamixelSDK"]
+	path = DynamixelSDK
+	url = https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+[submodule "open_manipulator_msgs"]
+	path = open_manipulator_msgs
+	url = https://github.com/ROBOTIS-GIT/open_manipulator_msgs.git
+[submodule "open_manipulator_pro_simulations"]
+	path = open_manipulator_pro_simulations
+	url = https://github.com/ROBOTIS-GIT/open_manipulator_pro_simulations.git
+[submodule "open_manipulator_pro"]
+	path = open_manipulator_pro
+	url = https://github.com/YunRongLi/open_manipulator_pro.git
