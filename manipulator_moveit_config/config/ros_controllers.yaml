@@ -25,8 +25,8 @@ mobilerobot:
     publish_rate: 50
   controller_list:
     []
-  manipulator_controller:
-    type: velocity_controllers/JointTrajectoryController
+  arm_controller:
+    type: velocity_controllers/JointvelocityController
     joints:
       - joint1
       - joint2
