@@ -346,6 +346,22 @@
     <child link="link1"/>
     <origin rpy="0 0 0" xyz="0.048 0 0.075"/>
   </joint>
+  <joint name="zed_support_fixed" type="fixed">
+    <parent link="link7"/>
+    <child link="zed_support"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  <link name="zed_support">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mobilerobot_description/meshes/zed_support.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+  </link>
   <joint name="hokuyo_fixed" type="fixed">
     <parent link="base_link"/>
     <child link="hokuyo_link"/>
