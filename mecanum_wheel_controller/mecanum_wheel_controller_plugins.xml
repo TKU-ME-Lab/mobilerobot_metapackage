@@ -1,0 +1,9 @@
+<library path="lib/libmecanum_wheel_controller">
+
+  <class name="mecanum_wheel_controller/MecanumWheelController" type="mecanum_wheel_controller::CMecanumWheelController" base_class_type="controller_interface::ControllerBase">
+    <description>
+      The MecanumWheelController tracks velocity commands. It 4 joints should have a VelocityActuatorInterface hardware interface.
+    </description>
+  </class>
+
+</library>
