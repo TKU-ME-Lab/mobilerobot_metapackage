@@ -349,11 +349,11 @@
   <joint name="zed_support_fixed" type="fixed">
     <parent link="link7"/>
     <child link="zed_support"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0.021 -0.045 -0.075"/>
   </joint>
   <link name="zed_support">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
       <geometry>
         <mesh filename="package://mobilerobot_description/meshes/zed_support.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -362,6 +362,48 @@
       </material>
     </visual>
   </link>
+  <joint name="zed_camera_center_joint" type="fixed">
+    <parent link="zed_support"/>
+    <child link="zed_camera_center"/>
+    <origin rpy="0 1.57079632679 0" xyz="0.034 0 0"/>
+  </joint>
+  <link name="zed_camera_center">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mobilerobot_description/meshes/ZED.stl"/>
+      </geometry>
+      <material name="light_grey">
+        <color rgba="0.8 0.8 0.8 0.8"/>
+      </material>
+    </visual>
+  </link>
+  <!-- Left Camera -->
+  <joint name="zed_left_camera_joint" type="fixed">
+    <parent link="zed_camera_center"/>
+    <child link="zed_left_camera_frame"/>
+    <origin rpy="0 0 0" xyz="0 0.06 0"/>
+  </joint>
+  <link name="zed_left_camera_frame"/>
+  <joint name="zed_left_camera_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0.0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="zed_left_camera_frame"/>
+    <child link="zed_left_camera_optical_frame"/>
+  </joint>
+  <link name="zed_left_camera_optical_frame"/>
+  <!-- Right Camera -->
+  <joint name="zed_right_camera_joint" type="fixed">
+    <parent link="zed_camera_center"/>
+    <child link="zed_right_camera_frame"/>
+    <origin rpy="0 0 0" xyz="0 -0.06 0"/>
+  </joint>
+  <link name="zed_right_camera_frame"/>
+  <joint name="zed_right_camera_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0.0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="zed_right_camera_frame"/>
+    <child link="zed_right_camera_optical_frame"/>
+  </joint>
+  <link name="zed_right_camera_optical_frame"/>
   <joint name="hokuyo_fixed" type="fixed">
     <parent link="base_link"/>
     <child link="hokuyo_link"/>
