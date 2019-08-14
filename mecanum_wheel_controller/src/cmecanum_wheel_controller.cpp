@@ -2,7 +2,7 @@
 #include <transmission_interface/transmission_parser.h>
 #include <boost/assign.hpp>
 #include <boost/foreach.hpp>
-#include <mobilerobot_control/cmecanum_wheel_controller.h>
+#include <mecanum_wheel_controller/cmecanum_wheel_controller.h>
 #include <iostream>
 
 static bool isCylinderOrSphere(const urdf::LinkConstSharedPtr &link)

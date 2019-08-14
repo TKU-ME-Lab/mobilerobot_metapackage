@@ -10,8 +10,8 @@
 #include <realtime_tools/realtime_buffer.h>
 #include <realtime_tools/realtime_publisher.h>
 
-#include <mobilerobot_control/codometry.h>
-#include <mobilerobot_control/cspeed_limiter.h>
+#include <mecanum_wheel_controller/codometry.h>
+#include <mecanum_wheel_controller/cspeed_limiter.h>
 
 namespace mecanum_wheel_controller
 {

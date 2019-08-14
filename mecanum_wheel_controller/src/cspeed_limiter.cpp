@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include <mobilerobot_control/cspeed_limiter.h>
+#include <mecanum_wheel_controller/cspeed_limiter.h>
 
 template<typename T>
 T clamp(T x, T min, T max)
