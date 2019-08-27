@@ -1,5 +1,5 @@
 <launch>
-  <rosparam command="load" file="$(find mobilerobot_control)/config/mecanum_wheel_controller.yaml" />
+  <rosparam command="load" file="$(find mecanum_wheel_controller)/config/mecanum_wheel_controller.yaml" />
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner"
         args="mobile_chassis_velocity_controller mobilerobot_joint_publisher" 
